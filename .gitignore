@@ -1,2 +1,7 @@
 node_modules
 .npm-cache
+npm-cache
+.vite
+dist
+package-lock.json
+.DS_Store
