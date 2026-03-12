@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+@layer base {
+  /* Global 7px/8px Metadata Headers */
+  h2.text-\[7px\], 
+  h2.text-\[8px\],
+  h3.text-\[7px\],
+  h3.text-\[8px\],
+  p.text-\[7px\],
+  p.text-\[8px\],
+  span.text-\[7px\],
+  span.text-\[8px\],
+  .uppercase.tracking-\[0\.4em\],
+  .uppercase.tracking-\[0\.5em\] {
+    @apply font-semibold tracking-[0.4em] text-slate-400;
+  }
+
+  /* Primary Text: Project Titles and Announcements */
+  .text-sm.font-black.text-slate-900,
+  .text-xl.font-black.uppercase.tracking-tight,
+  h3.text-sm.font-black,
+  .announcement-card h3 {
+    @apply font-bold text-slate-900;
+  }
+
+  /* Data: Currency (₱) and Timestamps */
+  .font-mono.text-slate-400,
+  .font-mono.tracking-tighter,
+  .msg-time,
+  .chat-time,
+  .note-time {
+    @apply font-mono text-slate-600;
+  }
+}

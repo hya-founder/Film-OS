@@ -1,0 +1,10 @@
+{
+  "name": "storefront-monorepo",
+  "private": true,
+  "scripts": {
+    "dev:admin": "pnpm --filter admin dev",
+    "dev:client": "pnpm --filter client dev",
+    "build:admin": "pnpm --filter admin build",
+    "build:client": "pnpm --filter client build"
+  }
+}
