@@ -200,22 +200,36 @@ const App = () => {
             </div>
           </div>
           <div className="md:col-span-2 space-y-8">
-            <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Join The Lab</h4>
-            <div className="relative group">
-              <input 
-                type="email" 
-                placeholder="EMAIL" 
-                className="w-full bg-transparent border-b border-slate-800 py-2 text-[11px] font-mono text-white outline-none focus:border-white transition-colors placeholder:text-slate-800"
-              />
-              <ArrowUpRight size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-slate-600 group-hover:text-white transition-colors" />
+            <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Contact Us</h4>
+            <div className="flex flex-col gap-4">
+              <a 
+                href="https://www.instagram.com/javaphotographyfilms/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase flex items-center gap-2"
+              >
+                Instagram
+                <ArrowUpRight size={12} />
+              </a>
+              <a 
+                href="https://www.facebook.com/javaphotographyandfilm" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase flex items-center gap-2"
+              >
+                Facebook
+                <ArrowUpRight size={12} />
+              </a>
             </div>
           </div>
         </div>
-        <div className="flex justify-between items-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-20 pt-8 border-t border-white/5">
-          <span>© 2026 JAVA PHOTOGRAPHY & FILM</span>
-          <div className="flex items-center gap-8">
+        <div className="grid grid-cols-3 items-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-20 pt-8 border-t border-white/5">
+          <span className="text-left">© 2026 JAVA PHOTOGRAPHY & FILM</span>
+          <div className="flex justify-center">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:opacity-100 transition-opacity cursor-pointer font-bold">Back to Top</button>
-            <span className="opacity-100 text-slate-400 font-bold">POWERED BY RYTA OS</span>
+          </div>
+          <div className="flex justify-end">
+            <span className="opacity-100 text-slate-400 font-bold">Powered by ryta</span>
           </div>
         </div>
       </div>
