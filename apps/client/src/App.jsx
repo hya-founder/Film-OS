@@ -212,7 +212,7 @@ const App = () => {
           </div>
         </div>
         <div className="flex justify-between items-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-20 pt-8 border-t border-white/5">
-          <span>© 2026 CINEMALAB PH</span>
+          <span>© 2026 JAVA PHOTOGRAPHY & FILM</span>
           <div className="flex items-center gap-8">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:opacity-100 transition-opacity cursor-pointer font-bold">Back to Top</button>
             <span className="opacity-100 text-slate-400 font-bold">POWERED BY RYTA OS</span>
@@ -232,10 +232,7 @@ const App = () => {
         <div className="flex items-center justify-between mb-12">
           {/* Logo */}
           <div className="flex items-center gap-3">
-             <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
-               <span className="text-[10px] font-black italic">CL.</span>
-             </div>
-             <h1 className="text-2xl font-black tracking-tighter uppercase">CINEMA LAB.</h1>
+             <h1 className="text-2xl font-black tracking-tighter uppercase">Java Photography & Film</h1>
           </div>
 
           {/* Search */}
@@ -301,20 +298,22 @@ const App = () => {
 
         <div className="grid grid-cols-4 gap-x-8 gap-y-16">
           {filteredPackages.map(pkg => (
-            <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer">
-              <div className="relative aspect-[1.4/1] overflow-hidden rounded-[40px] bg-slate-50 mb-8 border border-slate-100">
+            <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer flex flex-col">
+              <div className="relative aspect-[1.4/1] overflow-hidden rounded-[40px] bg-slate-50 mb-8 border border-slate-100 shrink-0">
                 <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute top-6 right-6 px-4 py-2 rounded-xl bg-white/95 backdrop-blur-sm text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-sm border border-white/20">
                   {pkg.stockStatus}
                 </div>
               </div>
               
-              <div className="space-y-4 pr-4">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">{pkg.category}</p>
-                <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">{pkg.title}</h3>
-                <p className="text-slate-400 text-sm font-medium italic italic">"{pkg.details}"</p>
+              <div className="flex flex-col flex-1">
+                <div className="space-y-4 pr-4">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">{pkg.category}</p>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">{pkg.title}</h3>
+                  <p className="text-slate-400 text-sm font-medium italic">"{pkg.details}"</p>
+                </div>
                 
-                <div className="flex items-center justify-between pt-6">
+                <div className="flex items-center justify-between pt-8 mt-auto">
                   <p className="text-2xl font-black text-slate-900 tracking-tighter">₱{pkg?.price?.toLocaleString() || '0'}</p>
                   <div className="w-12 h-12 bg-[#F8F9FA] rounded-full flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
                     <ChevronRight size={20} strokeWidth={2.5} />
