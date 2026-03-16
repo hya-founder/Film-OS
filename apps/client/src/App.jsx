@@ -275,7 +275,7 @@ const App = () => {
 
           {/* Logo (Center) */}
           <div className="flex items-center justify-center">
-             <h1 className="text-2xl font-black tracking-tighter uppercase text-center">Java Photography</h1>
+             <h1 className="text-2xl font-black tracking-tighter uppercase text-center">JAVA PHOTOGRAPHY & FILM</h1>
           </div>
 
           {/* Icons (Right) */}
