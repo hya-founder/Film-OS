@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Video, 
   Mail, 
@@ -140,9 +140,12 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Packages');
   const [activePackage, setActivePackage] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isBookingSuccess, setIsBookingSuccess] = useState(false);
+
+  const searchInputRef = useRef(null);
 
   const filteredPackages = useMemo(() => {
     return (PACKAGES || []).filter(pkg => {
@@ -170,6 +173,13 @@ const App = () => {
     setIsBookingSuccess(true);
     setCurrentPage('storefront');
     setActivePackage(null);
+  };
+
+  const toggleSearch = () => {
+    setIsSearchExpanded(!isSearchExpanded);
+    if (!isSearchExpanded) {
+      setTimeout(() => searchInputRef.current?.focus(), 100);
+    }
   };
 
   const Footer = () => (
@@ -243,30 +253,36 @@ const App = () => {
       <BookingCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
       
       <header className="px-16 py-8">
-        <div className="flex items-center justify-between mb-12">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-             <h1 className="text-2xl font-black tracking-tighter uppercase">Java Photography & Film</h1>
-          </div>
-
-          {/* Search */}
-          <div className="flex-1 max-w-xl mx-auto px-12">
-            <div className="relative group">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+        <div className="grid grid-cols-3 items-center mb-12">
+          {/* Search (Left) */}
+          <div className="flex items-center justify-start">
+            <div className="flex items-center relative h-8">
+              <button onClick={toggleSearch} className="text-slate-900 z-10 hover:opacity-60 transition-all">
+                <Search size={24} strokeWidth={1.5} />
+              </button>
               <input 
+                ref={searchInputRef}
                 type="text" 
-                placeholder="Search services..." 
+                placeholder="SEARCH SERVICES..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#F8F9FA] border-none rounded-full py-4 px-14 text-sm font-medium focus:ring-2 focus:ring-slate-100 transition-all placeholder:text-slate-400" 
+                onBlur={() => searchQuery === '' && setIsSearchExpanded(false)}
+                className={`absolute left-0 pl-10 bg-transparent border-none border-b border-slate-200 focus:border-slate-900 focus:ring-0 text-xs font-bold tracking-widest uppercase transition-all duration-300 ease-out outline-none
+                  ${isSearchExpanded ? 'w-64 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}
               />
             </div>
           </div>
 
-          {/* Icons */}
-          <div className="flex items-center gap-8">
-            <button onClick={() => setIsCalendarOpen(true)} className="text-slate-900 hover:opacity-60 transition-all">
+          {/* Logo (Center) */}
+          <div className="flex items-center justify-center">
+             <h1 className="text-2xl font-black tracking-tighter uppercase text-center">Java Photography</h1>
+          </div>
+
+          {/* Icons (Right) */}
+          <div className="flex items-center justify-end gap-8">
+            <button onClick={() => setIsCalendarOpen(true)} className="text-slate-900 hover:opacity-60 transition-all relative">
               <CalendarIcon size={24} strokeWidth={1.5} />
+              {selectedDate && <div className="absolute top-0 right-0 w-2 h-2 bg-blue-600 rounded-full border border-white" />}
             </button>
             <button onClick={handleAdminRedirect} className="text-slate-900 hover:opacity-60 transition-all">
               <User size={24} strokeWidth={1.5} />
