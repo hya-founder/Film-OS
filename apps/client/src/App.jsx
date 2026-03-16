@@ -143,13 +143,6 @@ const App = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isBookingSuccess, setIsBookingSuccess] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const filteredPackages = useMemo(() => {
     return (PACKAGES || []).filter(pkg => {
@@ -183,8 +176,6 @@ const App = () => {
     <footer className="w-full bg-[#050505] border-t border-white/5 mt-32">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-          
-          {/* Section 1: Global Partners (Cols 1-6) */}
           <div className="md:col-span-6 space-y-10">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Global Partners</h4>
             <div className="grid grid-cols-2 gap-y-12">
@@ -194,8 +185,6 @@ const App = () => {
               <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">RED BULL</span>
             </div>
           </div>
-
-          {/* Section 2: Product (Cols 7-8) */}
           <div className="md:col-span-2 space-y-8">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Product</h4>
             <div className="flex flex-col gap-4">
@@ -203,8 +192,6 @@ const App = () => {
               <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Pricing</a>
             </div>
           </div>
-
-          {/* Section 3: Company (Cols 9-10) */}
           <div className="md:col-span-2 space-y-8">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Company</h4>
             <div className="flex flex-col gap-4">
@@ -212,8 +199,6 @@ const App = () => {
               <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Terms</a>
             </div>
           </div>
-
-          {/* Section 4: Join The Lab (Cols 11-12) */}
           <div className="md:col-span-2 space-y-8">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Join The Lab</h4>
             <div className="relative group">
@@ -226,17 +211,10 @@ const App = () => {
             </div>
           </div>
         </div>
-
-        {/* Bottom Bar */}
         <div className="flex justify-between items-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-20 pt-8 border-t border-white/5">
           <span>© 2026 CINEMALAB PH</span>
           <div className="flex items-center gap-8">
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="hover:opacity-100 transition-opacity cursor-pointer font-bold"
-            >
-              Back to Top
-            </button>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:opacity-100 transition-opacity cursor-pointer font-bold">Back to Top</button>
             <span className="opacity-100 text-slate-400 font-bold">POWERED BY RYTA OS</span>
           </div>
         </div>
@@ -247,92 +225,100 @@ const App = () => {
   if (currentPage === 'booking-details') return <BookingDetailsForm onBack={() => setCurrentPage('storefront')} onSubmit={handleFormSubmit} />;
 
   return (
-    <div className="min-h-screen w-full bg-[#fcfcfd] text-slate-900 selection:bg-slate-900 selection:text-white font-inter text-center">
+    <div className="min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
       <BookingCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
       
-      {/* Restored Cinema Lab Header */}
-      <header className="bg-white border-b border-slate-50 sticky top-0 z-50">
-        {/* Top Row: Logo, Search, Icons */}
-        <div className="flex items-center justify-between h-24 px-16 bg-white">
-          {/* Logo - Far Left */}
-          <div className="text-lg font-black tracking-tighter text-slate-900 uppercase w-48 text-left">
-            CINEMA LAB<span className="text-blue-600">.</span>
+      <header className="px-16 py-8">
+        <div className="flex items-center justify-between mb-12">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+               <span className="text-[10px] font-black italic">CL.</span>
+             </div>
+             <h1 className="text-2xl font-black tracking-tighter uppercase">CINEMA LAB.</h1>
           </div>
 
-          {/* Search Bar - Vertically Centered */}
-          <div className="flex-1 max-w-2xl mx-auto flex items-center justify-center">
-            <div className="relative group w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={12} />
+          {/* Search */}
+          <div className="flex-1 max-w-xl mx-auto px-12">
+            <div className="relative group">
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
               <input 
                 type="text" 
-                placeholder="SEARCH SERVICES..." 
-                value={searchQuery} 
-                onChange={(e) => setSearchQuery(e.target.value)} 
-                className="w-full bg-slate-50/50 border border-slate-100 rounded-full py-2.5 px-12 text-[10px] tracking-widest text-center font-bold focus:ring-2 focus:ring-blue-50 transition-all placeholder:text-slate-300 text-slate-900" 
+                placeholder="Search services..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#F8F9FA] border-none rounded-full py-4 px-14 text-sm font-medium focus:ring-2 focus:ring-slate-100 transition-all placeholder:text-slate-400" 
               />
             </div>
           </div>
 
-          {/* Icons - Far Right */}
-          <div className="flex items-center justify-end gap-6 w-48">
-            <button onClick={() => setIsCalendarOpen(true)} className="p-2 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-slate-900 relative">
-              <CalendarIcon size={18} />
-              {selectedDate && <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-blue-600 rounded-full border-2 border-white" />}
+          {/* Icons */}
+          <div className="flex items-center gap-8">
+            <button onClick={() => setIsCalendarOpen(true)} className="text-slate-900 hover:opacity-60 transition-all">
+              <CalendarIcon size={24} strokeWidth={1.5} />
             </button>
-            <button onClick={handleAdminRedirect} className="p-2 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-slate-900">
-              <User size={18} />
+            <button onClick={handleAdminRedirect} className="text-slate-900 hover:opacity-60 transition-all">
+              <User size={24} strokeWidth={1.5} />
             </button>
           </div>
         </div>
 
-        {/* Symmetry Wrapper: Dedicated Navigation Div */}
-        <div className="py-10 bg-white border-t border-slate-50">
-          <nav className="flex justify-center gap-12">
-            {['All Packages', 'Commercials', 'Events', 'Real Estate', 'Social Media'].map(cat => (
-              <button 
-                key={cat} 
-                onClick={() => setSelectedCategory(cat)} 
-                className={`text-[9px] font-bold uppercase tracking-[0.4em] transition-all relative ${selectedCategory === cat ? 'text-slate-900' : 'text-slate-400 hover:text-slate-900'}`}
-              >
-                {cat}
-                {selectedCategory === cat && <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 rounded-full" />}
-              </button>
-            ))}
-          </nav>
-        </div>
+        {/* Navigation */}
+        <nav className="flex items-center justify-center gap-12 mt-8 pb-4">
+          {['ALL PACKAGES', 'COMMERCIALS', 'EVENTS', 'REAL ESTATE', 'SOCIAL MEDIA'].map(cat => (
+            <button 
+              key={cat} 
+              onClick={() => setSelectedCategory(cat === 'ALL PACKAGES' ? 'All Packages' : cat)} 
+              className={`text-[11px] font-black uppercase tracking-[0.3em] transition-all relative pb-2 ${
+                (selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)
+                ? 'text-slate-900' : 'text-slate-400 hover:text-slate-900'
+              }`}
+            >
+              {cat}
+              {((selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)) && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 rounded-full" />
+              )}
+            </button>
+          ))}
+        </nav>
       </header>
 
-      <main className="max-w-[1700px] mx-auto px-16 mt-6 pb-20 text-left">
+      <main className="max-w-[1600px] mx-auto px-16 py-12">
         {isBookingSuccess && (
-          <div className="mb-12 p-8 bg-white border border-blue-50 rounded-[40px] flex items-center justify-between animate-in slide-in-from-top-4 duration-500 shadow-sm">
-            <div className="flex items-center gap-6 text-slate-900">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-200">
+          <div className="mb-16 p-8 bg-slate-900 rounded-[40px] flex items-center justify-between text-white animate-in slide-in-from-top-4 duration-500 shadow-2xl">
+            <div className="flex items-center gap-6">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900">
                 <Check size={24} strokeWidth={4} />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-600">Booking Request Sent</p>
-                <p className="text-sm font-bold text-slate-900 mt-1">We've received your brief. Expect a response within 24 hours.</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">Booking Request Sent</p>
+                <p className="text-lg font-bold mt-1 tracking-tight">We've received your brief. Expect a response within 24 hours.</p>
               </div>
             </div>
-            <button className="bg-slate-900 text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-slate-800 transition-all shadow-xl">Schedule Call</button>
+            <button className="bg-white text-slate-900 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-slate-100 transition-all">Schedule Call</button>
           </div>
         )}
 
-        {/* The Exact Cinema Lab Grid */}
-        <div className="grid grid-cols-4 gap-12">
+        <div className="grid grid-cols-4 gap-x-8 gap-y-16">
           {filteredPackages.map(pkg => (
-            <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group flex flex-col cursor-pointer hover:-translate-y-2 transition-transform duration-500">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[48px] shadow-sm mb-8 bg-white border border-slate-50">
-                <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
-                <div className="absolute top-6 right-6 px-3 py-1.5 rounded-full bg-white text-[8px] font-black uppercase tracking-widest text-slate-900 shadow-sm border border-white/50">
+            <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer">
+              <div className="relative aspect-[1.4/1] overflow-hidden rounded-[40px] bg-slate-50 mb-8 border border-slate-100">
+                <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute top-6 right-6 px-4 py-2 rounded-xl bg-white/95 backdrop-blur-sm text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-sm border border-white/20">
                   {pkg.stockStatus}
                 </div>
               </div>
-              <div className="flex flex-col px-2 flex-1">
-                <p className="text-[8px] font-bold text-slate-300 uppercase tracking-[0.2em] mb-2">{pkg.category}</p>
-                <h3 className="text-2xl font-bold text-slate-900 tracking-tight leading-none mb-2">{pkg.title}</h3>
-                <div className="mt-auto">
-                  <p className="text-3xl font-mono font-bold text-slate-900 mt-10">₱{pkg?.price?.toLocaleString() || '0'}</p>
+              
+              <div className="space-y-4 pr-4">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">{pkg.category}</p>
+                <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">{pkg.title}</h3>
+                <p className="text-slate-400 text-sm font-medium italic italic">"{pkg.details}"</p>
+                
+                <div className="flex items-center justify-between pt-6">
+                  <p className="text-2xl font-black text-slate-900 tracking-tighter">₱{pkg?.price?.toLocaleString() || '0'}</p>
+                  <div className="w-12 h-12 bg-[#F8F9FA] rounded-full flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                    <ChevronRight size={20} strokeWidth={2.5} />
+                  </div>
                 </div>
               </div>
             </div>
