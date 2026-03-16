@@ -313,7 +313,7 @@ const App = () => {
         <div className="grid grid-cols-4 gap-x-8 gap-y-16">
           {filteredPackages.map(pkg => (
             <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer flex flex-col">
-              <div className="relative aspect-[1.4/1] overflow-hidden rounded-[40px] bg-slate-50 mb-8 border border-slate-100 shrink-0">
+              <div className="relative aspect-[1.6/1] overflow-hidden rounded-[40px] bg-slate-50 mb-8 border border-slate-100 shrink-0">
                 <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute top-6 right-6 px-4 py-2 rounded-xl bg-white/95 backdrop-blur-sm text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-sm border border-white/20">
                   {pkg.stockStatus}
@@ -321,13 +321,13 @@ const App = () => {
               </div>
               
               <div className="flex flex-col flex-1">
-                <div className="space-y-4 pr-4">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">{pkg.category}</p>
+                <div className="space-y-3 pr-4">
+                  <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">{pkg.category}</p>
                   <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">{pkg.title}</h3>
-                  <p className="text-slate-400 text-sm font-medium italic">"{pkg.details}"</p>
+                  <p className="text-slate-400 text-sm font-medium italic opacity-80">{pkg.details}</p>
                 </div>
                 
-                <div className="flex items-center justify-between pt-8 mt-auto">
+                <div className="flex items-center justify-between pt-10 mt-auto">
                   <p className="text-2xl font-black text-slate-900 tracking-tighter">₱{pkg?.price?.toLocaleString() || '0'}</p>
                   <div className="w-12 h-12 bg-[#F8F9FA] rounded-full flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
                     <ChevronRight size={20} strokeWidth={2.5} />
