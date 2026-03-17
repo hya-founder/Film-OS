@@ -183,7 +183,7 @@ const App = () => {
   };
 
   const Footer = () => (
-    <footer className="w-full bg-[#050505] border-t border-white/5 mt-10">
+    <footer className="footer-reveal-container w-full bg-[#050505] border-t border-white/5 mt-10">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
           <div className="md:col-span-6 space-y-6">
@@ -252,13 +252,13 @@ const App = () => {
     <div className="min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
       <BookingCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
       
-      <header className="px-16 py-8">
-        <div className="grid grid-cols-3 items-center mb-12">
+      <header className="px-16 pt-10 pb-6 border-b border-slate-50 sticky top-0 z-50 bg-white">
+        <div className="grid grid-cols-3 items-center mb-16">
           {/* Search (Left) */}
           <div className="flex items-center justify-start">
             <div className="flex items-center relative h-8">
               <button onClick={toggleSearch} className="text-slate-900 z-10 hover:opacity-60 transition-all">
-                <Search size={24} strokeWidth={1.5} />
+                <Search size={20} strokeWidth={1.25} />
               </button>
               <input 
                 ref={searchInputRef}
@@ -267,43 +267,43 @@ const App = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onBlur={() => searchQuery === '' && setIsSearchExpanded(false)}
-                className={`absolute left-0 pl-10 bg-transparent border-none border-b border-slate-200 focus:border-slate-900 focus:ring-0 text-xs font-bold tracking-widest uppercase transition-all duration-300 ease-out outline-none
-                  ${isSearchExpanded ? 'w-64 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}
+                className={`absolute left-0 pl-10 bg-transparent border-none border-b border-slate-200 focus:border-slate-900 focus:ring-0 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 ease-out outline-none
+                  ${isSearchExpanded ? 'w-56 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}
               />
             </div>
           </div>
 
           {/* Logo (Center) */}
           <div className="flex items-center justify-center">
-             <h1 className="text-2xl font-black tracking-tighter uppercase text-center">JAVA PHOTOGRAPHY & FILM</h1>
+             <h1 className="text-[22px] font-black tracking-tighter uppercase text-center text-slate-900">JAVA PHOTOGRAPHY & FILM</h1>
           </div>
 
           {/* Icons (Right) */}
-          <div className="flex items-center justify-end gap-8">
+          <div className="flex items-center justify-end gap-6">
             <button onClick={() => setIsCalendarOpen(true)} className="text-slate-900 hover:opacity-60 transition-all relative">
-              <CalendarIcon size={24} strokeWidth={1.5} />
-              {selectedDate && <div className="absolute top-0 right-0 w-2 h-2 bg-blue-600 rounded-full border border-white" />}
+              <CalendarIcon size={20} strokeWidth={1.25} />
+              {selectedDate && <div className="absolute -top-1 -right-1 w-2 h-2 bg-slate-900 rounded-full border-2 border-white" />}
             </button>
             <button onClick={handleAdminRedirect} className="text-slate-900 hover:opacity-60 transition-all">
-              <User size={24} strokeWidth={1.5} />
+              <User size={20} strokeWidth={1.25} />
             </button>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex items-center justify-center gap-12 mt-8 pb-0">
+        <nav className="flex items-center justify-center gap-10">
           {['ALL PACKAGES', 'COMMERCIALS', 'EVENTS', 'REAL ESTATE', 'SOCIAL MEDIA'].map(cat => (
             <button 
               key={cat} 
               onClick={() => setSelectedCategory(cat === 'ALL PACKAGES' ? 'All Packages' : cat)} 
-              className={`text-[11px] font-black uppercase tracking-[0.3em] transition-all relative pb-2 ${
+              className={`text-[10px] font-black uppercase tracking-[0.25em] transition-all relative pb-3 ${
                 (selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)
                 ? 'text-slate-900' : 'text-slate-400 hover:text-slate-900'
               }`}
             >
               {cat}
               {((selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)) && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 rounded-full" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-slate-900" />
               )}
             </button>
           ))}

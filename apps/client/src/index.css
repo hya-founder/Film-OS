@@ -8,6 +8,27 @@
   font-family: "Inter", sans-serif;
 }
 
+/* Scroll-Driven reveal for Footer & UTILS */
+@keyframes footer-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+.footer-reveal-container {
+  animation: footer-reveal linear both;
+  animation-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  animation-timeline: scroll(root);
+  animation-range: 40% 60%; /* Reveal starts at 40% scroll, finishes at 60% */
+}
+
 html, body {
   scroll-behavior: smooth;
   -ms-overflow-style: none;  /* IE and Edge */
