@@ -183,7 +183,7 @@ const App = () => {
   };
 
   const Footer = () => (
-    <footer className="w-full bg-[#050505] border-t border-white/5 mt-20">
+    <footer className="w-full bg-[#050505] border-t border-white/5 mt-10">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
           <div className="md:col-span-6 space-y-6">
@@ -291,7 +291,7 @@ const App = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex items-center justify-center gap-12 mt-8 pb-4">
+        <nav className="flex items-center justify-center gap-12 mt-8 pb-0">
           {['ALL PACKAGES', 'COMMERCIALS', 'EVENTS', 'REAL ESTATE', 'SOCIAL MEDIA'].map(cat => (
             <button 
               key={cat} 
@@ -310,7 +310,7 @@ const App = () => {
         </nav>
       </header>
 
-      <main className="max-w-[1600px] mx-auto px-16 py-12">
+      <main className="max-w-[1600px] mx-auto px-16 pt-4 pb-4">
         {isBookingSuccess && (
           <div className="mb-16 p-8 bg-slate-900 rounded-[40px] flex items-center justify-between text-white animate-in slide-in-from-top-4 duration-500 shadow-2xl">
             <div className="flex items-center gap-6">
