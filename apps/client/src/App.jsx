@@ -39,7 +39,7 @@ const PACKAGES = [
     availability: 'Available',
     category: 'Commercials',
     image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=800',
-    stockStatus: 'High Demand'
+    stockStatus: 'FEATURED WORK'
   },
   {
     id: 'PKG-002',
@@ -49,7 +49,7 @@ const PACKAGES = [
     availability: 'Low Stock',
     category: 'Social Media',
     image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=800',
-    stockStatus: 'Low Stock'
+    stockStatus: 'NOW BOOKING'
   },
   {
     id: 'PKG-003',
@@ -59,7 +59,7 @@ const PACKAGES = [
     availability: 'Available',
     category: 'Social Media',
     image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800',
-    stockStatus: 'Trending'
+    stockStatus: 'DIRECTOR\'S CHOICE'
   },
   {
     id: 'PKG-004',
@@ -69,7 +69,7 @@ const PACKAGES = [
     availability: 'Out of Stock',
     category: 'Real Estate',
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800',
-    stockStatus: 'Booked'
+    stockStatus: 'IN PRODUCTION'
   }
 ];
 
@@ -183,35 +183,35 @@ const App = () => {
   };
 
   const Footer = () => (
-    <footer className="w-full bg-[#050505] border-t border-white/5 mt-32">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="w-full bg-[#050505] border-t border-white/5 mt-20">
+      <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-          <div className="md:col-span-6 space-y-10">
+          <div className="md:col-span-6 space-y-6">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Global Partners</h4>
-            <div className="grid grid-cols-2 gap-y-12">
+            <div className="grid grid-cols-2 gap-y-8">
               <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">NIKE PH</span>
               <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">AYALA LAND</span>
               <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">VOGUE</span>
               <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">RED BULL</span>
             </div>
           </div>
-          <div className="md:col-span-2 space-y-8">
+          <div className="md:col-span-2 space-y-6">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Product</h4>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Features</a>
               <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Pricing</a>
             </div>
           </div>
-          <div className="md:col-span-2 space-y-8">
+          <div className="md:col-span-2 space-y-6">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Company</h4>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">About</a>
               <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Terms</a>
             </div>
           </div>
-          <div className="md:col-span-2 space-y-8">
+          <div className="md:col-span-2 space-y-6">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Contact Us</h4>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <a 
                 href="https://www.instagram.com/javaphotographyfilms/" 
                 target="_blank" 
@@ -233,7 +233,7 @@ const App = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-3 items-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-20 pt-8 border-t border-white/5">
+        <div className="grid grid-cols-3 items-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-12 pt-6 border-t border-white/5">
           <span className="text-left">© 2026 JAVA PHOTOGRAPHY & FILM</span>
           <div className="flex justify-center">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:opacity-100 transition-opacity cursor-pointer font-bold">Back to Top</button>
@@ -331,7 +331,7 @@ const App = () => {
             <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer flex flex-col">
               <div className="relative aspect-[1.6/1] overflow-hidden rounded-[40px] bg-slate-50 mb-4 border border-slate-100 shrink-0">
                 <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute top-6 right-6 px-4 py-2 rounded-xl bg-white/95 backdrop-blur-sm text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-sm border border-white/20">
+                <div className="absolute top-6 right-6 px-4 py-2 rounded-xl bg-white/95 backdrop-blur-sm text-[10px] font-light uppercase tracking-[0.15em] text-slate-900 shadow-sm border border-white/20">
                   {pkg.stockStatus}
                 </div>
               </div>
