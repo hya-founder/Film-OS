@@ -252,7 +252,7 @@ const App = () => {
     <div className="min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
       <BookingCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
       
-      <header className="px-16 pt-10 pb-6 border-b border-slate-50 sticky top-0 z-50 bg-white">
+      <header className="px-16 pt-10 pb-6 border-b border-slate-50 bg-white">
         <div className="grid grid-cols-3 items-center mb-16">
           {/* Search (Left) */}
           <div className="flex items-center justify-start">
