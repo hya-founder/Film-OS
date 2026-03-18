@@ -29,6 +29,7 @@
 .calendar_container {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  gap: 0;
   grid-gap: 0;
   width: 100%;
 }
@@ -45,19 +46,17 @@
 
 .day_cell {
   position: relative;
-  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
 }
 
 .day {
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -76,14 +75,15 @@
   background-color: #000 !important;
   color: #fff !important;
   border-radius: 50% !important;
-  z-index: 10 !important;
+  z-index: 2 !important;
   position: relative;
-  width: 36px !important;
-  height: 36px !important;
+  width: 100% !important;
+  height: 100% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   opacity: 1 !important;
+  font-weight: 900 !important;
 }
 
 .day:not(.activeCircle):not(.rangeBridge):hover {
@@ -92,12 +92,15 @@
 }
 
 .rangeBridge {
-  background-color: #F3F4F6 !important;
+  background-color: #E5E7EB !important;
   border-radius: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  z-index: 5 !important;
+  z-index: 1 !important;
   transition: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Force render for range start/end bridges to fill gaps */
@@ -108,9 +111,10 @@
   bottom: 0;
   right: 0;
   left: 50%;
-  background-color: #F3F4F6 !important;
-  z-index: 4 !important;
+  background-color: #E5E7EB !important;
+  z-index: 1 !important;
   transition: none !important;
+  height: 100% !important;
 }
 
 .rangeEndBridge::after {
@@ -120,9 +124,10 @@
   bottom: 0;
   left: 0;
   right: 50%;
-  background-color: #F3F4F6 !important;
-  z-index: 4 !important;
+  background-color: #E5E7EB !important;
+  z-index: 1 !important;
   transition: none !important;
+  height: 100% !important;
 }
 
 .summary_container {

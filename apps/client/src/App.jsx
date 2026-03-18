@@ -69,7 +69,7 @@ const PACKAGES = [
     details: 'Gimbal 4K, HDR Stills, Interior Lighting',
     price: 15000,
     availability: 'Out of Stock',
-    category: 'Real Estate',
+    category: 'Portrait Studio',
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800',
     stockStatus: 'IN PRODUCTION'
   }
@@ -78,7 +78,7 @@ const PACKAGES = [
 const BookingDetailsForm = ({ onBack, onSubmit }) => {
   const [formData, setFormData] = useState({ venueAddress: '', shootDates: '', techRequirements: '', onsetContact: '' });
   return (
-    <div className="flex flex-col min-h-screen bg-white text-slate-900 font-sans">
+    <>
       <nav className="p-8 border-b border-slate-100 flex items-center gap-6 shrink-0">
         <button onClick={onBack} className="p-3 hover:bg-slate-50 rounded-2xl transition-all text-slate-400 hover:text-slate-900"><ArrowLeft size={20} /></button>
         <h1 className="text-xl font-black tracking-tight uppercase">Booking Details</h1>
@@ -99,7 +99,7 @@ const BookingDetailsForm = ({ onBack, onSubmit }) => {
           <button onClick={() => onSubmit(formData)} className="w-full py-6 bg-slate-900 text-white rounded-3xl font-black text-lg hover:bg-slate-800 transition-all shadow-2xl flex items-center justify-center gap-3 uppercase tracking-widest">Submit Production Details <Zap size={20} fill="currentColor" /></button>
         </div>
       </main>
-    </div>
+    </>
   );
 };
 
@@ -167,8 +167,8 @@ const App = () => {
   };
 
   const Footer = () => (
-    <footer className="footer-reveal-container w-full bg-[#050505] border-t border-white/5 mt-10">
-      <div className="max-w-7xl mx-auto px-6 py-10">
+    <footer className="footer-reveal-container w-full bg-[#050505] border-t border-white/5 mt-10 shrink-0">
+      <div className="max-w-[1600px] mx-auto px-16 py-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
           <div className="md:col-span-6 space-y-6">
             <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Global Partners</h4>
@@ -230,114 +230,120 @@ const App = () => {
     </footer>
   );
 
-  if (currentPage === 'booking-details') return <BookingDetailsForm onBack={() => setCurrentPage('storefront')} onSubmit={handleFormSubmit} />;
-
   return (
     <div className="flex flex-col min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
       <StudioCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
       
-      <header className="px-16 pt-10 pb-6 border-b border-slate-50 bg-white shrink-0">
-        <div className="grid grid-cols-3 items-center mb-16">
-          {/* Search (Left) */}
-          <div className="flex items-center justify-start">
-            <div className="flex items-center relative h-8">
-              <button onClick={toggleSearch} className="text-slate-900 z-10 hover:opacity-60 transition-all">
-                <Search size={20} strokeWidth={1.25} />
-              </button>
-              <input 
-                ref={searchInputRef}
-                type="text" 
-                placeholder="SEARCH SERVICES..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onBlur={() => searchQuery === '' && setIsSearchExpanded(false)}
-                className={`absolute left-0 pl-10 bg-transparent border-none border-b border-slate-200 focus:border-slate-900 focus:ring-0 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 ease-out outline-none
-                  ${isSearchExpanded ? 'w-56 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}
-              />
-            </div>
-          </div>
-
-          {/* Logo (Center) */}
-          <div className="flex items-center justify-center">
-             <h1 className="text-[22px] font-black tracking-tighter uppercase text-center text-slate-900">JAVA PHOTOGRAPHY & FILM</h1>
-          </div>
-
-          {/* Icons (Right) */}
-          <div className="flex items-center justify-end gap-6">
-            <button onClick={() => setIsCalendarOpen(true)} className="text-slate-900 hover:opacity-60 transition-all relative">
-              <CalendarIcon size={20} strokeWidth={1.25} />
-              {selectedDate && <div className="absolute -top-1 -right-1 w-2 h-2 bg-slate-900 rounded-full border-2 border-white" />}
-            </button>
-            <button onClick={handleAdminRedirect} className="text-slate-900 hover:opacity-60 transition-all">
-              <User size={20} strokeWidth={1.25} />
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex items-center justify-center gap-10">
-          {['ALL PACKAGES', 'COMMERCIALS', 'EVENTS', 'REAL ESTATE', 'SOCIAL MEDIA'].map(cat => (
-            <button 
-              key={cat} 
-              onClick={() => setSelectedCategory(cat === 'ALL PACKAGES' ? 'All Packages' : cat)} 
-              className={`text-[10px] font-black uppercase tracking-[0.25em] transition-all relative pb-3 ${
-                (selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)
-                ? 'text-slate-900' : 'text-slate-400 hover:text-slate-900'
-              }`}
-            >
-              {cat}
-              {((selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)) && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-slate-900" />
-              )}
-            </button>
-          ))}
-        </nav>
-      </header>
-
-      <main className="flex-1 max-w-[1600px] mx-auto px-16 pt-4 pb-4 w-full">
-        {isBookingSuccess && (
-          <div className="mb-16 p-8 bg-slate-900 rounded-[40px] flex items-center justify-between text-white animate-in slide-in-from-top-4 duration-500 shadow-2xl">
-            <div className="flex items-center gap-6">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900">
-                <Check size={24} strokeWidth={4} />
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">Booking Request Sent</p>
-                <p className="text-lg font-bold mt-1 tracking-tight">We've received your brief. Expect a response within 24 hours.</p>
-              </div>
-            </div>
-            <button className="bg-white text-slate-900 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-slate-100 transition-all">Schedule Call</button>
-          </div>
-        )}
-
-        <div className="grid grid-cols-4 gap-x-8 gap-y-12">
-          {filteredPackages.map(pkg => (
-            <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer flex flex-col">
-              <div className="relative aspect-[1.6/1] overflow-hidden rounded-[40px] bg-slate-50 mb-4 border border-slate-100 shrink-0">
-                <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute top-6 right-6 px-4 py-2 rounded-xl bg-white/95 backdrop-blur-sm text-[10px] font-light uppercase tracking-[0.15em] text-slate-900 shadow-sm border border-white/20">
-                  {pkg.stockStatus}
+      {currentPage === 'storefront' ? (
+        <>
+          <header className="px-16 pt-10 pb-6 border-b border-slate-50 bg-white shrink-0">
+            <div className="grid grid-cols-3 items-center mb-16">
+              {/* Search (Left) */}
+              <div className="flex items-center justify-start">
+                <div className="flex items-center relative h-8">
+                  <button onClick={toggleSearch} className="text-slate-900 z-10 hover:opacity-60 transition-all">
+                    <Search size={20} strokeWidth={1.25} />
+                  </button>
+                  <input 
+                    ref={searchInputRef}
+                    type="text" 
+                    placeholder="SEARCH SERVICES..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onBlur={() => searchQuery === '' && setIsSearchExpanded(false)}
+                    className={`absolute left-0 pl-10 bg-transparent border-none border-b border-slate-200 focus:border-slate-900 focus:ring-0 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 ease-out outline-none
+                      ${isSearchExpanded ? 'w-56 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}
+                  />
                 </div>
               </div>
-              
-              <div className="flex flex-col flex-1">
-                <div className="space-y-1.5 pr-4">
-                  <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">{pkg.category}</p>
-                  <h3 className="text-xl font-black text-slate-900 tracking-tight leading-none">{pkg.title}</h3>
-                  <p className="text-slate-400 text-sm font-medium italic opacity-80">{pkg.details}</p>
-                </div>
-                
-                <div className="flex items-center justify-between pt-4 mt-auto">
-                  <p className="text-2xl font-black text-slate-900 tracking-tighter">₱{pkg?.price?.toLocaleString() || '0'}</p>
-                  <div className="w-10 h-10 bg-[#F8F9FA] rounded-full flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
-                    <ChevronRight size={18} strokeWidth={2.5} />
+
+              {/* Logo (Center) */}
+              <div className="flex items-center justify-center">
+                 <h1 className="text-[22px] font-black tracking-tighter uppercase text-center text-slate-900">JAVA PHOTOGRAPHY & FILM</h1>
+              </div>
+
+              {/* Icons (Right) */}
+              <div className="flex items-center justify-end gap-6">
+                <button onClick={() => setIsCalendarOpen(true)} className="text-slate-900 hover:opacity-60 transition-all relative">
+                  <CalendarIcon size={20} strokeWidth={1.25} />
+                  {selectedDate && <div className="absolute -top-1 -right-1 w-2 h-2 bg-slate-900 rounded-full border-2 border-white" />}
+                </button>
+                <button onClick={handleAdminRedirect} className="text-slate-900 hover:opacity-60 transition-all">
+                  <User size={20} strokeWidth={1.25} />
+                </button>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <nav className="flex items-center justify-center gap-10">
+              {['ALL PACKAGES', 'COMMERCIALS', 'EVENTS', 'PORTRAIT STUDIO', 'SOCIAL MEDIA'].map(cat => (
+                <button 
+                  key={cat} 
+                  onClick={() => setSelectedCategory(cat === 'ALL PACKAGES' ? 'All Packages' : cat === 'PORTRAIT STUDIO' ? 'Portrait Studio' : cat)} 
+                  className={`text-[10px] font-black uppercase tracking-[0.25em] transition-all relative pb-3 ${
+                    (selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)
+                    ? 'text-slate-900' : 'text-slate-400 hover:text-slate-900'
+                  }`}
+                >
+
+                  {cat}
+                  {((selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)) && (
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-slate-900" />
+                  )}
+                </button>
+              ))}
+            </nav>
+          </header>
+
+          <main className="flex-1 max-w-[1600px] mx-auto px-16 pt-4 pb-4 w-full">
+            {isBookingSuccess && (
+              <div className="mb-16 p-8 bg-slate-900 rounded-[40px] flex items-center justify-between text-white animate-in slide-in-from-top-4 duration-500 shadow-2xl">
+                <div className="flex items-center gap-6">
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900">
+                    <Check size={24} strokeWidth={4} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">Booking Request Sent</p>
+                    <p className="text-lg font-bold mt-1 tracking-tight">We've received your brief. Expect a response within 24 hours.</p>
                   </div>
                 </div>
+                <button className="bg-white text-slate-900 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-slate-100 transition-all">Schedule Call</button>
               </div>
+            )}
+
+            <div className="grid grid-cols-4 gap-x-8 gap-y-12">
+              {filteredPackages.map(pkg => (
+                <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer flex flex-col">
+                  <div className="relative aspect-[1.6/1] overflow-hidden rounded-[40px] bg-slate-50 mb-4 border border-slate-100 shrink-0">
+                    <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute top-6 right-6 px-4 py-2 rounded-xl bg-white/95 backdrop-blur-sm text-[10px] font-light uppercase tracking-[0.15em] text-slate-900 shadow-sm border border-white/20">
+                      {pkg.stockStatus}
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col flex-1">
+                    <div className="space-y-1.5 pr-4">
+                      <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">{pkg.category}</p>
+                      <h3 className="text-xl font-black text-slate-900 tracking-tight leading-none">{pkg.title}</h3>
+                      <p className="text-slate-400 text-sm font-medium italic opacity-80">{pkg.details}</p>
+                    </div>
+                    
+                    <div className="flex items-center justify-between pt-4 mt-auto">
+                      <p className="text-2xl font-black text-slate-900 tracking-tighter">₱{pkg?.price?.toLocaleString() || '0'}</p>
+                      <div className="w-10 h-10 bg-[#F8F9FA] rounded-full flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                        <ChevronRight size={18} strokeWidth={2.5} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </main>
+          </main>
+        </>
+      ) : (
+        <BookingDetailsForm onBack={() => setCurrentPage('storefront')} onSubmit={handleFormSubmit} />
+      )}
+
       <Footer />
       {activePackage && (
         <>
