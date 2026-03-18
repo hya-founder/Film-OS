@@ -98,8 +98,9 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
   };
 
   const handleConfirm = () => {
-    if (startDate && endDate) {
-      onSelect({ start: startDate, end: endDate }); 
+    if (startDate) {
+      const finalEnd = endDate || startDate;
+      onSelect({ start: startDate, end: finalEnd }); 
       onClose();
     }
   };
@@ -221,8 +222,8 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
         <div className="p-5 border-t border-slate-50 bg-white shrink-0 sticky bottom-0">
           <button 
             onClick={handleConfirm}
-            disabled={!startDate || !endDate}
-            className={`${styles.confirm_button} ${(startDate && endDate) ? styles.confirm_button_active : styles.confirm_button_disabled}`}
+            disabled={!startDate}
+            className={`${styles.confirm_button} ${startDate ? styles.confirm_button_active : styles.confirm_button_disabled}`}
           >
             Confirm Selection
           </button>
