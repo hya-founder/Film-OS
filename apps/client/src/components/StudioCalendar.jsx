@@ -1,68 +1,98 @@
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../styles/StudioCalendar.module.css';
 
 const BOOKED_DATES = [
-  '2026-03-01', '2026-03-02', '2026-03-03', '2026-03-04', '2026-03-05',
-  '2026-03-08', '2026-03-15', '2026-03-22'
+  new Date(2026, 2, 1),
+  new Date(2026, 2, 2),
+  new Date(2026, 2, 3),
+  new Date(2026, 2, 4),
+  new Date(2026, 2, 5),
+  new Date(2026, 2, 8),
+  new Date(2026, 2, 15),
+  new Date(2026, 2, 22)
 ];
 
-const StudioCalendar = ({ isOpen, onClose, selectedDate, onSelect }) => {
+const isSameDay = (d1, d2) => {
+  if (!d1 || !d2) return false;
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
+};
+
+const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [hoverDate, setHoverDate] = useState(null);
+  const [viewDate, setViewDate] = useState(new Date(2026, 2, 1)); // March 2026
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+    return () => document.body.classList.remove('no-scroll');
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const daysInMonth = 31;
-  const startDayOfWeek = 0; // March 1, 2026 is Sunday
+  const currentYear = viewDate.getFullYear();
+  const currentMonth = viewDate.getMonth();
+  
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const startDayOfWeek = new Date(currentYear, currentMonth, 1).getDay();
   
   const paddingDays = Array.from({ length: startDayOfWeek }, (_, i) => null);
   const actualDays = Array.from({ length: daysInMonth }, (_, i) => {
-    const day = i + 1;
-    const dateStr = `2026-03-${day.toString().padStart(2, '0')}`;
-    const isBooked = BOOKED_DATES.includes(dateStr);
-    return { day, dateStr, isBooked };
+    const date = new Date(currentYear, currentMonth, i + 1);
+    const isBooked = BOOKED_DATES.some(bookedDate => isSameDay(bookedDate, date));
+    return { date, isBooked };
   });
 
   const allDays = [...paddingDays, ...actualDays];
   const dayLabels = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+  const handlePrevMonth = () => {
+    setViewDate(new Date(currentYear, currentMonth - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setViewDate(new Date(currentYear, currentMonth + 1, 1));
+  };
+
   const formatDateRange = (start, end) => {
     if (!start) return 'Select dates';
-    const s = new Date(start);
-    const month = s.toLocaleDateString('en-US', { month: 'short' });
-    const sDay = s.getDate();
-    
-    if (!end) return `${month} ${sDay}`;
-    
-    const e = new Date(end);
-    const eDay = e.getDate();
+    const month = start.toLocaleDateString('en-US', { month: 'short' });
+    const sDay = start.getDate();
+    if (!end || isSameDay(start, end)) return `${month} ${sDay}`;
+    const eDay = end.getDate();
     return `${month} ${sDay} - ${eDay}`;
   };
 
   const calculateDays = (start, end) => {
     if (!start) return 0;
-    if (!end) return 1;
-    const s = new Date(start);
-    const e = new Date(end);
-    const diffTime = Math.abs(e - s);
+    if (!end || isSameDay(start, end)) return 1;
+    const diffTime = Math.abs(end.getTime() - start.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     return diffDays;
   };
 
-  const handleDateClick = (dateStr) => {
+  const handleDateClick = (date) => {
     if (!startDate || (startDate && endDate)) {
-      setStartDate(dateStr);
+      setStartDate(date);
       setEndDate(null);
     } else {
-      if (new Date(dateStr) < new Date(startDate)) {
-        setStartDate(dateStr);
+      if (date < startDate) {
+        setStartDate(date);
         setEndDate(null);
-      } else if (dateStr === startDate) {
+      } else if (isSameDay(date, startDate)) {
         setStartDate(null);
+        setEndDate(null);
       } else {
-        setEndDate(dateStr);
+        setEndDate(date);
       }
     }
   };
@@ -74,22 +104,14 @@ const StudioCalendar = ({ isOpen, onClose, selectedDate, onSelect }) => {
     }
   };
 
-  const isInRange = (dateStr) => {
+  const isInRange = (date) => {
     if (!startDate || !endDate) return false;
-    const current = new Date(dateStr);
-    const s = new Date(startDate);
-    const e = new Date(endDate);
-    return current > s && current < e;
+    return date > startDate && date < endDate;
   };
 
-  const isGhostRange = (dateStr) => {
-    if (startDate && !endDate && hoverDate) {
-      if (new Date(hoverDate) > new Date(startDate)) {
-        const current = new Date(dateStr);
-        const s = new Date(startDate);
-        const e = new Date(hoverDate);
-        return current > s && current <= e;
-      }
+  const isGhostRange = (date) => {
+    if (startDate && !endDate && hoverDate && hoverDate > startDate) {
+      return date > startDate && date <= hoverDate;
     }
     return false;
   };
@@ -101,7 +123,23 @@ const StudioCalendar = ({ isOpen, onClose, selectedDate, onSelect }) => {
         <div className="p-5 pb-3 flex items-center justify-between shrink-0">
           <div>
             <h2 className="text-xl font-black tracking-tight text-slate-900 uppercase">Production Window</h2>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">March 2026 • Cebu City</p>
+            <div className="flex items-center gap-1 mt-1">
+              <button 
+                onClick={handlePrevMonth} 
+                className="p-1 hover:bg-slate-50 rounded-lg transition-colors"
+              >
+                <ChevronLeft size={16} strokeWidth={3} color="#000000" />
+              </button>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest min-w-[120px] text-center">
+                {viewDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} • Cebu City
+              </p>
+              <button 
+                onClick={handleNextMonth} 
+                className="p-1 hover:bg-slate-50 rounded-lg transition-colors"
+              >
+                <ChevronRight size={16} strokeWidth={3} color="#000000" />
+              </button>
+            </div>
           </div>
           <button onClick={onClose} className="p-3 hover:bg-slate-50 rounded-2xl transition-all">
             <X size={20} className="text-slate-400" />
@@ -140,36 +178,39 @@ const StudioCalendar = ({ isOpen, onClose, selectedDate, onSelect }) => {
             {dayLabels.map(label => (
               <div key={label} className={styles.day_label}>{label}</div>
             ))}
-            {allDays.map((dateObj, idx) => {
-              if (!dateObj) return <div key={`padding-${idx}`} />;
+            {allDays.map((dayObj, idx) => {
+              if (!dayObj) return <div key={`padding-${idx}`} />;
               
-              const { day, dateStr, isBooked } = dateObj;
-              const isStart = startDate === dateStr;
-              const isEnd = endDate === dateStr;
-              const inRange = isInRange(dateStr);
-              const inGhost = isGhostRange(dateStr);
+              const { date, isBooked } = dayObj;
+              const isStart = isSameDay(date, startDate);
+              const isEnd = isSameDay(date, endDate);
+              const inRange = isInRange(date);
+              const inGhost = isGhostRange(date);
               
               let cellClass = styles.day_cell;
-              if (inRange || (inGhost && !isStart)) {
+              let buttonClass = `${styles.day} ${isBooked ? styles.day_booked : ''} ${(isStart || isEnd) ? styles.activeCircle : ''}`;
+              
+              if (inRange || inGhost) {
                 cellClass += ` ${styles.rangeBridge}`;
+                buttonClass += ` ${styles.rangeBridge}`;
               }
-              if (isStart && (endDate || (hoverDate && new Date(hoverDate) > new Date(startDate)))) {
+              if (isStart && (endDate || (hoverDate && hoverDate > startDate))) {
                 cellClass += ` ${styles.rangeStartBridge}`;
               }
-              if (isEnd || (hoverDate === dateStr && startDate && !endDate && new Date(hoverDate) > new Date(startDate))) {
+              if (isEnd || (isSameDay(date, hoverDate) && startDate && !endDate && hoverDate > startDate)) {
                 cellClass += ` ${styles.rangeEndBridge}`;
               }
 
               return (
-                <div key={dateStr} className={cellClass}>
+                <div key={date.getTime()} className={cellClass}>
                   <button 
                     disabled={isBooked} 
-                    onClick={() => handleDateClick(dateStr)}
-                    onMouseEnter={() => setHoverDate(dateStr)}
+                    onClick={() => handleDateClick(date)}
+                    onMouseEnter={() => setHoverDate(date)}
                     onMouseLeave={() => setHoverDate(null)}
-                    className={`${styles.day_button} ${isBooked ? styles.day_booked : ''} ${(isStart || isEnd) ? styles.activeDate : ''}`}
+                    className={buttonClass}
                   >
-                    <span>{day}</span>
+                    <span className="relative z-[11]">{date.getDate()}</span>
                   </button>
                 </div>
               );

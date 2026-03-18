@@ -2,7 +2,7 @@
   --active-bg: #000000;
   --active-text: #FFFFFF;
   --bridge-bg: #F3F4F6;
-  --weekday-text: #666666;
+  --weekday-text: #333333;
   --available-text: #000000;
   --booked-text: #E5E7EB;
 }
@@ -35,11 +35,12 @@
 
 .day_label {
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 500;
   color: var(--weekday-text);
   text-align: center;
   padding-bottom: 8px;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .day_cell {
@@ -48,6 +49,80 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.day {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0;
+  margin: 0;
+  transition: none !important;
+}
+
+.activeCircle,
+.activeCircle:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  z-index: 10 !important;
+  position: relative;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+}
+
+.day:not(.activeCircle):not(.rangeBridge):hover {
+  background-color: #F9FAFB;
+  color: #000;
+}
+
+.rangeBridge {
+  background-color: #F3F4F6 !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 5 !important;
+  transition: none !important;
+}
+
+/* Force render for range start/end bridges to fill gaps */
+.rangeStartBridge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  background-color: #F3F4F6 !important;
+  z-index: 4 !important;
+  transition: none !important;
+}
+
+.rangeEndBridge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 50%;
+  background-color: #F3F4F6 !important;
+  z-index: 4 !important;
+  transition: none !important;
 }
 
 .summary_container {
@@ -110,44 +185,9 @@
   width: 100%;
 }
 
-.day_button {
-  width: 100%;
-  height: 100%;
-  font-size: 12px;
-  font-weight: 900;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--available-text);
-  z-index: 1;
-  position: relative;
-  padding: 0;
-  margin: 0;
-}
-
-.activeDate {
-  background-color: #000 !important;
-  color: #fff !important;
-  border-radius: 50% !important;
-  z-index: 2;
-  position: relative;
-}
-
-.rangeBridge {
-  background-color: #F3F4F6 !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  height: 100% !important;
-  width: 100% !important;
-}
-
 .day_booked {
   color: var(--booked-text) !important;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 .day_booked::after {
@@ -159,30 +199,7 @@
   height: 1px;
   background-color: var(--booked-text);
   transform: rotate(-45deg);
-  z-index: 3;
-}
-
-/* Ensure the bridge is continuous between activeDates */
-.rangeStartBridge::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 50%;
-  background-color: #F3F4F6;
-  z-index: 0;
-}
-
-.rangeEndBridge::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 50%;
-  background-color: #F3F4F6;
-  z-index: 0;
+  z-index: 15;
 }
 
 .confirm_button {
