@@ -358,16 +358,63 @@ const App = () => {
       {activePackage && (
         <>
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60]" onClick={() => setActivePackage(null)} />
-          <aside className="fixed inset-y-0 right-0 w-full max-w-xl bg-white z-[70] shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 border-l border-slate-100">
-            <div className="p-10 border-b border-slate-50 flex items-center justify-between"><h2 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Service Overview</h2><button onClick={() => setActivePackage(null)} className="p-3 hover:bg-slate-50 rounded-full transition-colors"><X size={24} className="text-slate-400" /></button></div>
-            <div className="flex-1 overflow-y-auto p-12 space-y-12">
-              <div><div className="flex items-center gap-3 mb-6"><span className="text-[10px] font-black px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg uppercase tracking-widest border border-indigo-100">{activePackage?.category}</span></div><h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-6 uppercase">{activePackage?.title}</h2><p className="text-slate-500 text-lg font-medium leading-relaxed italic">"{activePackage?.details}"</p></div>
-              <section className="space-y-10">
-                <button onClick={() => setIsCalendarOpen(true)} className={`w-full p-8 rounded-[32px] border transition-all flex items-center justify-between group ${selectedDate ? 'bg-indigo-50 border-indigo-200' : 'bg-slate-50 border-slate-100 hover:border-slate-300'}`}><div className="text-left"><p className="text-[9px] font-black uppercase text-slate-400 mb-2 tracking-widest">Production Date</p><p className={`text-xl font-black ${selectedDate ? 'text-indigo-600' : 'text-slate-900'}`}>{selectedDate ? new Date(selectedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'SELECT FROM CALENDAR'}</p></div><ChevronRight className={selectedDate ? 'text-indigo-400' : 'text-slate-300 group-hover:translate-x-1 transition-transform'} /></button>
-                <div className="p-10 bg-slate-900 border border-slate-800 rounded-[40px] shadow-2xl text-white"><p className="text-[10px] font-black uppercase opacity-40 mb-4 tracking-widest">Estimated Investment</p><div className="flex items-end justify-between"><p className="text-5xl font-black tracking-tighter text-white">₱{activePackage?.price?.toLocaleString() || '0'}</p><p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Includes LDI</p></div></div>
+          <aside className="fixed inset-y-0 right-0 w-full max-w-md bg-white z-[70] shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 border-l border-slate-100">
+            <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between">
+              <h2 className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Service Overview</h2>
+              <button onClick={() => setActivePackage(null)} className="p-2 hover:bg-slate-50 rounded-full transition-colors"><X size={20} className="text-slate-400" /></button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-8 space-y-8">
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[8px] font-black px-2 py-0.5 bg-slate-100 text-slate-500 rounded uppercase tracking-widest border border-slate-200">{activePackage?.category}</span>
+                </div>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4 uppercase">{activePackage?.title}</h2>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-3 text-xs font-medium text-slate-500">
+                    <div className="w-1 h-1 bg-slate-300 rounded-full" /> 12-hour Production Day
+                  </li>
+                  <li className="flex items-center gap-3 text-xs font-medium text-slate-500">
+                    <div className="w-1 h-1 bg-slate-300 rounded-full" /> Anamorphic Lens Kit
+                  </li>
+                  <li className="flex items-center gap-3 text-xs font-medium text-slate-500">
+                    <div className="w-1 h-1 bg-slate-300 rounded-full" /> Professional Color Grade
+                  </li>
+                </ul>
+              </div>
+
+              <section className="space-y-6">
+                <div>
+                  <label className="text-[9px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Production Date</label>
+                  <button 
+                    onClick={() => setIsCalendarOpen(true)} 
+                    className={`w-full px-4 py-3 rounded-xl border text-left transition-all flex items-center justify-between group ${selectedDate ? 'bg-white border-slate-900' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}
+                  >
+                    <span className={`text-sm font-bold ${selectedDate ? 'text-slate-900' : 'text-slate-400'}`}>
+                      {selectedDate ? new Date(selectedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Select Date...'}
+                    </span>
+                    <ChevronRight size={16} className={selectedDate ? 'text-slate-900' : 'text-slate-300'} />
+                  </button>
+                </div>
+
+                <div className="p-6 bg-slate-900 rounded-2xl shadow-xl text-white">
+                  <p className="text-[9px] font-black uppercase opacity-40 mb-2 tracking-widest">Investment Estimate</p>
+                  <div className="flex items-baseline justify-between">
+                    <p className="text-3xl font-bold tracking-tighter text-white">₱{activePackage?.price?.toLocaleString() || '0'}</p>
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">VAT Inclusive</p>
+                  </div>
+                </div>
               </section>
             </div>
-            <div className="p-12 border-t border-slate-50 bg-white"><button className={`w-full py-7 rounded-[24px] font-black text-xl transition-all flex items-center justify-center gap-4 uppercase tracking-[0.2em] shadow-2xl ${selectedDate ? 'bg-slate-900 text-white hover:bg-slate-800 shadow-slate-900/20' : 'bg-slate-100 text-slate-400 cursor-not-allowed shadow-none'}`} onClick={handleInitiateBooking}><Zap size={24} fill="currentColor" /> Initiate Request</button></div>
+
+            <div className="p-8 border-t border-slate-50 bg-white">
+              <button 
+                className={`w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-3 uppercase tracking-widest ${selectedDate ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-100 text-slate-300 cursor-not-allowed'}`} 
+                onClick={handleInitiateBooking}
+              >
+                <Zap size={16} fill="currentColor" /> Initiate Request
+              </button>
+            </div>
           </aside>
         </>
       )}
