@@ -29,6 +29,8 @@ import {
   MapPinned
 } from 'lucide-react';
 
+import StudioCalendar from './components/StudioCalendar';
+
 // --- STUDIO PACKAGES DATA ---
 const PACKAGES = [
   {
@@ -72,40 +74,6 @@ const PACKAGES = [
     stockStatus: 'IN PRODUCTION'
   }
 ];
-
-const BOOKED_DATES = ['2026-03-15', '2026-03-20', '2026-03-22'];
-
-const BookingCalendar = ({ isOpen, onClose, selectedDate, onSelect }) => {
-  if (!isOpen) return null;
-  const daysInMonth = 31;
-  const days = Array.from({ length: daysInMonth }, (_, i) => {
-    const day = i + 1;
-    const dateStr = `2026-03-${day.toString().padStart(2, '0')}`;
-    const isBooked = BOOKED_DATES.includes(dateStr);
-    return { day, dateStr, isBooked };
-  });
-  const dayLabels = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-in fade-in duration-300">
-      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-md rounded-[32px] overflow-hidden shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-300">
-        <div className="p-8 border-b border-slate-50 flex items-center justify-between">
-          <div><h2 className="text-xl font-black tracking-tight text-slate-900 uppercase">Studio Calendar</h2><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">March 2026 • Cebu City</p></div>
-          <button onClick={onClose} className="p-3 hover:bg-slate-50 rounded-2xl transition-all"><X size={20} className="text-slate-400" /></button>
-        </div>
-        <div className="p-8">
-          <div className="grid grid-cols-7 gap-1 mb-4">
-            {dayLabels.map(label => (<div key={label} className="text-[9px] font-black text-slate-300 text-center pb-2">{label}</div>))}
-            {days.map(({ day, dateStr, isBooked }) => {
-              const isSelected = selectedDate === dateStr;
-              return (<button key={dateStr} disabled={isBooked} onClick={() => { onSelect(dateStr); onClose(); }} className={`h-12 rounded-xl text-xs font-black transition-all flex flex-col items-center justify-center relative ${isBooked ? 'text-slate-200 cursor-not-allowed' : 'hover:bg-slate-50 text-slate-900'} ${isSelected ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : ''}`}><span className={isBooked ? 'line-through decoration-slate-300 decoration-2' : ''}>{day}</span></button>);
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const BookingDetailsForm = ({ onBack, onSubmit }) => {
   const [formData, setFormData] = useState({ venueAddress: '', shootDates: '', techRequirements: '', onsetContact: '' });
@@ -250,7 +218,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
-      <BookingCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
+      <StudioCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
       
       <header className="px-16 pt-10 pb-6 border-b border-slate-50 bg-white">
         <div className="grid grid-cols-3 items-center mb-16">

@@ -1,0 +1,134 @@
+.ryta-calendar-root {
+  --active-bg: #000000;
+  --active-text: #FFFFFF;
+  --booked-text: #E5E7EB;
+  --bridge-bg: #F3F4F6;
+  --hover-bg: #F9FAFB;
+  --weekday-text: #666666;
+  --available-text: #000000;
+}
+
+.calendar_container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+}
+
+.day_label {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--weekday-text);
+  text-align: center;
+  padding-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.day_button {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 900;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  color: var(--available-text);
+}
+
+.day_button:hover:not(:disabled):not(.selected) {
+  background-color: var(--hover-bg);
+  border-radius: 50%;
+}
+
+.day_booked {
+  color: var(--booked-text);
+  pointer-events: none;
+}
+
+.day_booked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background-color: var(--booked-text);
+  transform: rotate(-45deg);
+}
+
+.selected {
+  color: var(--active-text) !important;
+  z-index: 10;
+}
+
+.selected::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--active-bg);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.range_mid {
+  background-color: var(--bridge-bg) !important;
+  border-radius: 0 !important;
+}
+
+/* Ensure the bridge connects properly without gaps */
+.range_start::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  background-color: var(--bridge-bg);
+  z-index: -2;
+}
+
+.range_end::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 50%;
+  background-color: var(--bridge-bg);
+  z-index: -2;
+}
+
+.confirm_button {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  margin-top: 24px;
+}
+
+.confirm_button_active {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.confirm_button_active:hover {
+  background-color: #1a1a1a;
+}
+
+.confirm_button_disabled {
+  background-color: #F1F5F9;
+  color: #CBD5E1;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
