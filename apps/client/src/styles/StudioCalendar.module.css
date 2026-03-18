@@ -70,6 +70,7 @@
   transition: none !important;
 }
 
+/* Ensure the black circle stays black and text stays white even on hover */
 .activeCircle,
 .activeCircle:hover {
   background-color: #000 !important;
@@ -86,6 +87,7 @@
   font-weight: 900 !important;
 }
 
+/* Only apply the subtle gray hover to dates that ARE NOT selected or in range */
 .day:not(.activeCircle):not(.rangeBridge):hover {
   background-color: #F9FAFB;
   color: #000;
