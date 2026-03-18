@@ -78,12 +78,12 @@ const PACKAGES = [
 const BookingDetailsForm = ({ onBack, onSubmit }) => {
   const [formData, setFormData] = useState({ venueAddress: '', shootDates: '', techRequirements: '', onsetContact: '' });
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans">
-      <nav className="p-8 border-b border-slate-100 flex items-center gap-6">
+    <div className="flex flex-col min-h-screen bg-white text-slate-900 font-sans">
+      <nav className="p-8 border-b border-slate-100 flex items-center gap-6 shrink-0">
         <button onClick={onBack} className="p-3 hover:bg-slate-50 rounded-2xl transition-all text-slate-400 hover:text-slate-900"><ArrowLeft size={20} /></button>
         <h1 className="text-xl font-black tracking-tight uppercase">Booking Details</h1>
       </nav>
-      <main className="max-w-2xl mx-auto py-20 px-8">
+      <main className="flex-1 max-w-2xl mx-auto py-20 px-8 w-full">
         <div className="mb-12"><h2 className="text-4xl font-black tracking-tighter mb-4 uppercase">Production Briefing.</h2><p className="text-slate-500 font-medium uppercase text-xs tracking-widest">Submit logistical details for your upcoming shoot.</p></div>
         <div className="space-y-10">
           <section className="bg-slate-900 rounded-[32px] p-10 text-white shadow-2xl">
@@ -134,6 +134,22 @@ const App = () => {
       return;
     }
     setCurrentPage('booking-details');
+  };
+
+  const formatSelectedDate = (range) => {
+    if (!range) return 'Select Date...';
+    const { start, end } = range;
+    if (!start) return 'Select Date...';
+    
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    const startStr = start.toLocaleDateString('en-US', options);
+    
+    if (!end || start.getTime() === end.getTime()) {
+      return startStr;
+    }
+    
+    const endStr = end.toLocaleDateString('en-US', options);
+    return `${startStr} - ${endStr}`;
   };
 
   const handleFormSubmit = (data) => {
@@ -217,10 +233,10 @@ const App = () => {
   if (currentPage === 'booking-details') return <BookingDetailsForm onBack={() => setCurrentPage('storefront')} onSubmit={handleFormSubmit} />;
 
   return (
-    <div className="min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
+    <div className="flex flex-col min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
       <StudioCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
       
-      <header className="px-16 pt-10 pb-6 border-b border-slate-50 bg-white">
+      <header className="px-16 pt-10 pb-6 border-b border-slate-50 bg-white shrink-0">
         <div className="grid grid-cols-3 items-center mb-16">
           {/* Search (Left) */}
           <div className="flex items-center justify-start">
@@ -278,7 +294,7 @@ const App = () => {
         </nav>
       </header>
 
-      <main className="max-w-[1600px] mx-auto px-16 pt-4 pb-4">
+      <main className="flex-1 max-w-[1600px] mx-auto px-16 pt-4 pb-4 w-full">
         {isBookingSuccess && (
           <div className="mb-16 p-8 bg-slate-900 rounded-[40px] flex items-center justify-between text-white animate-in slide-in-from-top-4 duration-500 shadow-2xl">
             <div className="flex items-center gap-6">
@@ -359,7 +375,7 @@ const App = () => {
                     className={`w-full px-4 py-3 rounded-xl border text-left transition-all flex items-center justify-between group ${selectedDate ? 'bg-white border-slate-900' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}
                   >
                     <span className={`text-sm font-bold ${selectedDate ? 'text-slate-900' : 'text-slate-400'}`}>
-                      {selectedDate ? new Date(selectedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Select Date...'}
+                      {formatSelectedDate(selectedDate)}
                     </span>
                     <ChevronRight size={16} className={selectedDate ? 'text-slate-900' : 'text-slate-300'} />
                   </button>

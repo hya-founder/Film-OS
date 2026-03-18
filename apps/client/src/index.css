@@ -30,6 +30,8 @@
 }
 
 html, body {
+  margin: 0;
+  height: 100%;
   scroll-behavior: smooth;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -50,4 +52,9 @@ header {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
 }
