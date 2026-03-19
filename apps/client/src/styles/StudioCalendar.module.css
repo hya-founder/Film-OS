@@ -76,7 +76,7 @@
   background-color: #000 !important;
   color: #fff !important;
   border-radius: 50% !important;
-  z-index: 2 !important;
+  z-index: 10 !important;
   position: relative;
   width: 100% !important;
   height: 100% !important;
@@ -85,11 +85,13 @@
   justify-content: center !important;
   opacity: 1 !important;
   font-weight: 900 !important;
+  transition: none !important;
+  pointer-events: none !important;
 }
 
 /* Only apply the subtle gray hover to dates that ARE NOT selected or in range */
 .day:not(.activeCircle):not(.rangeBridge):hover {
-  background-color: #F9FAFB;
+  background-color: #F9FAFB !important;
   color: #000;
 }
 
@@ -98,11 +100,12 @@
   border-radius: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  z-index: 1 !important;
+  z-index: 5 !important;
   transition: none !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  pointer-events: none !important;
 }
 
 /* Force render for range start/end bridges to fill gaps */

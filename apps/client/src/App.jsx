@@ -123,6 +123,24 @@ const App = () => {
     });
   }, [selectedCategory, searchQuery]);
 
+  const calculateDays = (range) => {
+    if (!range || !range.start) return 1;
+    if (!range.end || (
+      range.start.getFullYear() === range.end.getFullYear() &&
+      range.start.getMonth() === range.end.getMonth() &&
+      range.start.getDate() === range.end.getDate()
+    )) return 1;
+    const diffTime = Math.abs(range.end.getTime() - range.start.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    return diffDays;
+  };
+
+  const totalPrice = useMemo(() => {
+    if (!activePackage) return 0;
+    const days = calculateDays(selectedDate);
+    return activePackage.price * days;
+  }, [activePackage, selectedDate]);
+
   const handleAdminRedirect = () => {
     const isAdminDev = window.location.hostname === 'localhost';
     window.location.href = isAdminDev ? 'http://localhost:3000' : `https://admin.${window.location.hostname}`;
@@ -388,9 +406,9 @@ const App = () => {
                 </div>
 
                 <div className="p-6 bg-slate-900 rounded-2xl shadow-xl text-white">
-                  <p className="text-[9px] font-black uppercase opacity-40 mb-2 tracking-widest">Investment Estimate</p>
+                  <p className="text-[9px] font-black uppercase opacity-40 mb-2 tracking-widest">Starting Price</p>
                   <div className="flex items-baseline justify-between">
-                    <p className="text-3xl font-bold tracking-tighter text-white">₱{activePackage?.price?.toLocaleString() || '0'}</p>
+                    <p className="text-3xl font-bold tracking-tighter text-white">₱{totalPrice?.toLocaleString() || '0'}</p>
                     <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">VAT Inclusive</p>
                   </div>
                 </div>

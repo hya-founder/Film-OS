@@ -25,7 +25,6 @@ const isSameDay = (d1, d2) => {
 const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [hoverDate, setHoverDate] = useState(null);
   const [viewDate, setViewDate] = useState(new Date(2026, 2, 1)); // March 2026
 
   useEffect(() => {
@@ -110,13 +109,6 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
     return date > startDate && date < endDate;
   };
 
-  const isGhostRange = (date) => {
-    if (startDate && !endDate && hoverDate && hoverDate > startDate) {
-      return date > startDate && date <= hoverDate;
-    }
-    return false;
-  };
-
   return (
     <div className={`fixed inset-0 z-[100] flex items-center justify-center p-6 animate-in fade-in duration-300 ${styles.ryta_calendar_root}`}>
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={onClose} />
@@ -186,30 +178,28 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
               const isStart = isSameDay(date, startDate);
               const isEnd = isSameDay(date, endDate);
               const inRange = isInRange(date);
-              const inGhost = isGhostRange(date);
               
               let cellClass = styles.day_cell;
               let buttonClass = `${styles.day} ${isBooked ? styles.day_booked : ''} ${(isStart || isEnd) ? styles.activeCircle : ''}`;
               
-              if (inRange || inGhost) {
+              if (inRange) {
                 cellClass += ` ${styles.rangeBridge}`;
                 buttonClass += ` ${styles.rangeBridge}`;
               }
-              if (isStart && (endDate || (hoverDate && hoverDate > startDate))) {
+              if (isStart && endDate) {
                 cellClass += ` ${styles.rangeStartBridge}`;
               }
-              if (isEnd || (isSameDay(date, hoverDate) && startDate && !endDate && hoverDate > startDate)) {
+              if (isEnd) {
                 cellClass += ` ${styles.rangeEndBridge}`;
               }
 
               return (
-                <div key={date.getTime()} className={cellClass}>
+                <div key={date.toISOString()} className={cellClass}>
                   <button 
                     disabled={isBooked} 
                     onClick={() => handleDateClick(date)}
-                    onMouseEnter={() => setHoverDate(date)}
-                    onMouseLeave={() => setHoverDate(null)}
                     className={buttonClass}
+                    style={(isStart || isEnd) ? { backgroundColor: '#000', color: '#fff' } : {}}
                   >
                     <span className="relative z-[11]">{date.getDate()}</span>
                   </button>
