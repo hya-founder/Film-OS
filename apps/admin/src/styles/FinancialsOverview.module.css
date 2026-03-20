@@ -1,0 +1,304 @@
+/* apps/admin/src/styles/FinancialsOverview.module.css */
+
+.root {
+  background-color: #F9F9F9;
+  color: #000000;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 80px;
+  /* Invisible scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure all child elements with overflow also hide scrollbars */
+.root * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.root *::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 24px 40px;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.spacer {
+  width: 36px;
+}
+
+.mainTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+  text-align: center;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #000000;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconButtonActive {
+  color: #3a03dd;
+}
+
+/* The Pulse Row */
+.pulsePanel {
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #F0F0F0;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 32px;
+  margin-bottom: 1.5rem;
+}
+
+.pulseStat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.statGroup {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.serifNumber {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.sparkline {
+  width: 60px;
+  height: 20px;
+}
+
+.labelMuted {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  color: #A1A1A1;
+}
+
+.label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  color: #000000;
+}
+
+/* Overdue Highlight */
+.overdueHighlight {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.overduePill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1.5px solid #3a03dd;
+}
+
+.cobaltDot {
+  width: 8px;
+  height: 8px;
+  background-color: #3a03dd;
+  border-radius: 50%;
+}
+
+/* Section Spacing */
+.section {
+  margin-bottom: 3rem;
+}
+
+/* Project List */
+.projectList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.projectCard {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #F0F0F0;
+}
+
+.projectTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.financialInfo {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.profitBold {
+  font-size: 16px;
+  font-weight: 900;
+  color: #000000;
+}
+
+.marginPill {
+  background-color: #3a03dd;
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ROI Table */
+.tableContainer {
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #F0F0F0;
+  overflow: hidden;
+}
+
+.roiTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.roiTable th {
+  text-align: left;
+  padding: 16px 24px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  color: #A1A1A1;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.roiTable td {
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.roiTable tr:last-child td {
+  border-bottom: none;
+}
+
+/* Billing Pipeline */
+.pipelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pipelineCard {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid #F0F0F0;
+}
+
+.projectMiniTitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+}
+
+.progressTrack {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trackNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.trackNode::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: #F0F0F0;
+  border-radius: 50%;
+  margin-top: 8px;
+}
+
+.trackNodeActive::after {
+  background: #3a03dd;
+}
+
+.nodeLabel {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #A1A1A1;
+}
+
+.trackNodeActive .nodeLabel {
+  color: #3a03dd;
+}
+
+.trackLine {
+  flex: 1;
+  height: 1px;
+  background: #F0F0F0;
+  margin: 14px 12px 0;
+}

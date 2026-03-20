@@ -1,0 +1,145 @@
+/* apps/admin/src/styles/Financials.module.css */
+
+.root {
+  background-color: #FFFFFF;
+  color: #000000;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 80px;
+  /* Invisible scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure all child elements with overflow also hide scrollbars */
+.root * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.root *::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 20px 40px;
+}
+
+/* Header Section */
+.header {
+  margin-bottom: 3rem;
+}
+
+.labelGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.totalHeader {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  color: #000000;
+}
+
+/* Pulse Row */
+.pulseRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 0;
+  border-top: 1px solid #EAEAEA;
+  border-bottom: 1px solid #EAEAEA;
+  margin-bottom: 4rem;
+}
+
+.statItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.statValue {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.divider {
+  width: 1px;
+  height: 40px;
+  background-color: #EAEAEA;
+}
+
+/* Project List */
+.section {
+  margin-bottom: 4rem;
+}
+
+.projectList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.projectCard {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #EAEAEA;
+}
+
+.titleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.projectTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.financialInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.profitValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.marginPill {
+  font-size: 12px;
+  font-weight: 800;
+  color: #3a03dd;
+  letter-spacing: 0.05em;
+}

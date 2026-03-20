@@ -1,0 +1,234 @@
+/* apps/admin/src/styles/AdminFinancials.module.css */
+
+.root {
+  background-color: #FFFFFF;
+  color: #000000;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 80px;
+  /* Invisible scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure all child elements with overflow also hide scrollbars */
+.root * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.root *::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 24px 40px;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #000000;
+  padding-bottom: 2rem;
+}
+
+.mainTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #000000;
+  transition: all 0.2s ease;
+}
+
+.label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  color: #000000;
+}
+
+.labelMuted {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  opacity: 0.4;
+}
+
+/* Top Metric Cards */
+.pulsePanel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-bottom: 4rem;
+}
+
+.pulseStat {
+  padding: 40px;
+  border: 1px solid #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+
+.pulseStat:not(:first-child) {
+  border-left: none;
+}
+
+.pulseStatBlack {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+.pulseStatBlack .labelMuted {
+  color: #FFFFFF;
+  opacity: 0.4;
+}
+
+.serifNumber {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  font-weight: 400;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* Project P&L List */
+.section {
+  margin-bottom: 4rem;
+}
+
+.projectList {
+  display: flex;
+  flex-direction: column;
+}
+
+.projectCard {
+  padding: 32px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.projectTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.financialInfo {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.profitBold {
+  font-size: 18px;
+  font-weight: 800;
+  color: #000000;
+  letter-spacing: -0.01em;
+}
+
+.marginPill {
+  font-size: 10px;
+  font-weight: 800;
+  color: #3a03dd;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Equipment ROI (2-column list) */
+.twoColumnList {
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.itemLabel {
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.itemValue {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* Billing Pipeline */
+.pipelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pipelineItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.projectMiniTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.statusGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.statusPill {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.statusPillActive {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+.statusPillMuted {
+  opacity: 0.2;
+  border-color: #EAEAEA;
+}
