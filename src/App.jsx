@@ -350,14 +350,7 @@ const App = () => {
   }, [activePackage, selectedDate]);
 
   const handleAdminRedirect = () => {
-    const isAdminDev = window.location.hostname === 'localhost';
-    if (isAdminDev) {
-      const currentPort = parseInt(window.location.port || '3001', 10);
-      const adminPort = currentPort - 1;
-      window.location.href = `http://localhost:${adminPort}`;
-    } else {
-      window.location.href = `https://admin.${window.location.hostname}`;
-    }
+    window.location.href = '/admin';
   };
 
   const handleInitiateBooking = () => {
