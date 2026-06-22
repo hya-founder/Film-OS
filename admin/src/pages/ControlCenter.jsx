@@ -33,9 +33,9 @@ const ControlCenter = () => {
   ];
 
   return (
-    <div className="flex-1 flex bg-slate-50 overflow-hidden">
+    <div className="flex-1 flex flex-col lg:flex-row bg-slate-50 overflow-y-auto lg:overflow-hidden pb-24 lg:pb-0">
       {columns.map((col, idx) => (
-        <section key={idx} className="flex-1 flex flex-col bg-white border-r border-slate-200">
+        <section key={idx} className="w-full lg:flex-1 flex flex-col bg-white border-b lg:border-b-0 lg:border-r border-slate-200 last:border-none text-left">
           <header className="p-4 border-b border-slate-100">
             <h2 className="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase">
               {col.title}

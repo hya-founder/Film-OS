@@ -48,10 +48,10 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
 
   const currentYear = viewDate.getFullYear();
   const currentMonth = viewDate.getMonth();
-  
+
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const startDayOfWeek = new Date(currentYear, currentMonth, 1).getDay();
-  
+
   const paddingDays = Array.from({ length: startDayOfWeek }, (_, i) => null);
   const actualDays = Array.from({ length: daysInMonth }, (_, i) => {
     const date = new Date(currentYear, currentMonth, i + 1);
@@ -108,7 +108,7 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
   const handleConfirm = () => {
     if (startDate) {
       const finalEnd = endDate || startDate;
-      onSelect({ start: startDate, end: finalEnd }); 
+      onSelect({ start: startDate, end: finalEnd });
       onClose();
     }
   };
@@ -126,8 +126,8 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
           <div>
             <h2 className="text-xl font-black tracking-tight text-slate-900 uppercase">Production Window</h2>
             <div className="flex items-center gap-1 mt-1">
-              <button 
-                onClick={handlePrevMonth} 
+              <button
+                onClick={handlePrevMonth}
                 className="p-1 hover:bg-slate-50 rounded-lg transition-colors"
               >
                 <ChevronLeft size={16} strokeWidth={3} color="#000000" />
@@ -135,8 +135,8 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest min-w-[120px] text-center">
                 {viewDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} • Cebu City
               </p>
-              <button 
-                onClick={handleNextMonth} 
+              <button
+                onClick={handleNextMonth}
                 className="p-1 hover:bg-slate-50 rounded-lg transition-colors"
               >
                 <ChevronRight size={16} strokeWidth={3} color="#000000" />
@@ -169,8 +169,8 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
                     {formatDateRange(startDate, endDate)}
                   </span>
                   {startDate && (
-                    <button 
-                      onClick={() => { setStartDate(null); setEndDate(null); }} 
+                    <button
+                      onClick={() => { setStartDate(null); setEndDate(null); }}
                       className={styles.reset_button}
                     >
                       <X size={12} />
@@ -187,7 +187,7 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
           )}
           <div className={styles.divider} />
         </div>
-        
+
         <div className={`p-5 pt-0 flex-1 ${styles.scroll_container}`}>
           <div className={styles.calendar_container}>
             {dayLabels.map(label => (
@@ -195,15 +195,15 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
             ))}
             {allDays.map((dayObj, idx) => {
               if (!dayObj) return <div key={`padding-${idx}`} />;
-              
+
               const { date, isBooked } = dayObj;
               const isStart = isSameDay(date, startDate);
               const isEnd = isSameDay(date, endDate);
               const inRange = isInRange(date);
-              
+
               let cellClass = styles.day_cell;
               let buttonClass = `${styles.day} ${isBooked ? styles.day_booked : ''} ${(isStart || isEnd) ? styles.activeCircle : ''} ${readOnly ? 'pointer-events-none cursor-default' : ''}`;
-              
+
               if (inRange) {
                 cellClass += ` ${styles.rangeBridge}`;
                 buttonClass += ` ${styles.rangeBridge}`;
@@ -217,8 +217,8 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
 
               return (
                 <div key={date.toISOString()} className={cellClass}>
-                  <button 
-                    disabled={isBooked} 
+                  <button
+                    disabled={isBooked}
                     onClick={() => handleDateClick(date)}
                     className={buttonClass}
                     style={(isStart || isEnd) ? { backgroundColor: '#000', color: '#fff' } : {}}
@@ -236,7 +236,7 @@ const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = fa
 
         {!readOnly && (
           <div className="p-5 border-t border-slate-50 bg-white shrink-0 sticky bottom-0">
-            <button 
+            <button
               onClick={handleConfirm}
               disabled={!startDate}
               className={`${styles.confirm_button} ${startDate ? styles.confirm_button_active : styles.confirm_button_disabled}`}

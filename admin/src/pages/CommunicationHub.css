@@ -535,3 +535,65 @@
   background: #f1f5f9;
   color: #0f172a;
 }
+
+@media (max-width: 768px) {
+  .comm-hub-container {
+    flex-direction: column;
+    height: auto;
+    overflow-y: auto;
+    padding-bottom: 80px;
+  }
+  .comm-hub-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    height: auto;
+  }
+  .sidebar-header h2 {
+    margin-bottom: 0;
+  }
+  .sidebar-nav {
+    flex-direction: row;
+    gap: 12px;
+  }
+  .nav-item {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .nav-item span {
+    display: none;
+  }
+  .comm-hub-main {
+    overflow: visible;
+  }
+  .announcements-layout,
+  .notifications-layout {
+    padding: 24px 16px;
+  }
+  .page-header h1 {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+  .page-header p {
+    margin-bottom: 24px;
+  }
+  .announcements-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .announcement-card {
+    padding: 24px;
+    border-radius: 20px;
+  }
+  .announcement-card h3 {
+    font-size: 18px;
+  }
+  .announcement-card p {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+}

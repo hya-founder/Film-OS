@@ -95,9 +95,38 @@ const App = () => {
   };
 
   return (
-    <div className="flex h-screen w-full bg-[#fcfcfd] overflow-hidden text-slate-900 selection:bg-slate-900/10 font-inter">
-      {/* Sidebar Navigation - Studio White Refactor */}
-      <aside className="w-20 flex flex-col items-center py-8 bg-white/70 backdrop-blur-xl border-r border-slate-100 shrink-0 z-20">
+    <div className="flex flex-col md:flex-row h-screen w-full bg-[#fcfcfd] overflow-hidden text-slate-900 selection:bg-slate-900/10 font-inter">
+      {/* Mobile Header / Top Bar */}
+      <div className="md:hidden flex items-center justify-between px-6 py-4 bg-white border-b border-slate-100 z-30 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white">
+            <Zap size={18} fill="currentColor" />
+          </div>
+          <span className="text-sm font-black uppercase tracking-wider">FILM OS</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => window.location.href = 'http://localhost:3001'}
+            title="Back to Client Side"
+            className="bg-white border border-slate-100 rounded-xl p-2 shadow-sm text-slate-400 hover:text-slate-900"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <button 
+            onClick={() => {
+              setIsLoggedIn(false);
+              localStorage.removeItem('admin_logged_in');
+            }}
+            title="Sign Out"
+            className="bg-red-50 text-red-600 rounded-xl p-2 shadow-sm flex items-center justify-center cursor-pointer"
+          >
+            <LogOut size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Sidebar Navigation - Studio White Refactor (Desktop) */}
+      <aside className="hidden md:flex w-20 flex-col items-center py-8 bg-white/70 backdrop-blur-xl border-r border-slate-100 shrink-0 z-20">
         <button 
           onClick={() => window.location.href = 'http://localhost:3001'}
           title="Back to Client Side"
@@ -175,7 +204,7 @@ const App = () => {
         </button>
       </aside>
 
-      <main className="flex-1 h-full overflow-y-auto p-12">
+      <main className="flex-1 h-full overflow-y-auto p-4 sm:p-6 md:p-12 pb-24 md:pb-12">
         <div className="max-w-[1400px] mx-auto">
           {view === 'HOME' ? (
             <Home />
@@ -228,6 +257,35 @@ const App = () => {
           )}
         </div>
       </main>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-100 flex items-center justify-start gap-1 px-4 overflow-x-auto no-scrollbar z-30">
+        {[
+          { id: 'HOME', label: 'Home', icon: HomeIcon },
+          { id: 'DASHBOARD', label: 'Analytics', icon: BarChart3 },
+          { id: 'CRM', label: 'CRM', icon: MessageSquare },
+          { id: 'COMM_HUB', label: 'Hub', icon: Megaphone },
+          { id: 'INVENTORY', label: 'Gear', icon: Box },
+          { id: 'EXPENSES', label: 'Cash', icon: Receipt },
+          { id: 'CONTROL_CENTER', label: 'Tasks', icon: ClipboardList },
+          { id: 'SUPPORT', label: 'Help', icon: LifeBuoy }
+        ].map((item) => {
+          const Icon = item.icon;
+          const isActive = view === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setView(item.id)}
+              className={`flex flex-col items-center justify-center min-w-[64px] h-full transition-all gap-1 ${
+                isActive ? 'text-blue-600 font-bold' : 'text-slate-400'
+              }`}
+            >
+              <Icon size={18} />
+              <span className="text-[9px] uppercase tracking-wider">{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 };
