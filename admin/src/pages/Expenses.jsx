@@ -10,9 +10,9 @@ const Expenses = () => {
   ];
 
   return (
-    <div className="flex-1 flex flex-col bg-slate-50 p-8 overflow-y-auto">
+    <div className="flex-1 flex flex-col bg-slate-50 p-4 sm:p-6 md:p-8 overflow-y-auto pb-24">
       {/* 1. Top Summary Row */}
-      <div className="grid grid-cols-3 gap-6 mb-8 text-left">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 text-left">
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <p className="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase mb-4">TOTAL BUDGET</p>
           <h2 className="text-3xl font-black text-slate-900">₱1,200,000</h2>
@@ -32,7 +32,7 @@ const Expenses = () => {
 
       <div className="grid grid-cols-12 gap-6">
         {/* 2. Staff Payroll Section */}
-        <section className="col-span-7 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden text-left">
+        <section className="col-span-12 lg:col-span-7 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden text-left">
           <header className="p-6 border-b border-slate-100 flex justify-between items-center">
             <h3 className="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase">STAFF PAYROLL</h3>
             <Users size={14} className="text-slate-300" />
@@ -58,7 +58,7 @@ const Expenses = () => {
         </section>
 
         {/* 3. Burn Graph Placeholder */}
-        <section className="col-span-5 flex flex-col gap-6 text-left">
+        <section className="col-span-12 lg:col-span-5 flex flex-col gap-6 text-left">
           <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex-1">
             <h3 className="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase mb-6">EXPENDITURE FLOW</h3>
             <div className="h-48 bg-slate-50 border border-dashed border-slate-200 rounded-lg flex items-center justify-center">

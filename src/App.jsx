@@ -1,14 +1,14 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { 
-  Video, 
-  Mail, 
-  MessageCircle, 
-  Send, 
-  FileText, 
-  Calendar as CalendarIcon, 
-  DollarSign, 
-  CheckCircle2, 
-  Clock, 
+import {
+  Video,
+  Mail,
+  MessageCircle,
+  Send,
+  FileText,
+  Calendar as CalendarIcon,
+  DollarSign,
+  CheckCircle2,
+  Clock,
   Search,
   ChevronRight,
   User,
@@ -26,7 +26,8 @@ import {
   Filter,
   ArrowLeft,
   Camera,
-  MapPinned
+  MapPinned,
+  MoreVertical
 } from 'lucide-react';
 
 import StudioCalendar from './components/StudioCalendar';
@@ -149,7 +150,7 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
   );
 
   const handleEquipmentChange = (index) => {
-    setEquipmentList(prev => prev.map((item, idx) => 
+    setEquipmentList(prev => prev.map((item, idx) =>
       idx === index ? { ...item, checked: !item.checked } : item
     ));
   };
@@ -158,7 +159,7 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
     const selectedEquipment = equipmentList
       .filter(item => item.checked)
       .map(item => item.name);
-    
+
     onSubmit({
       ...formData,
       packageTitle: activePackage?.title || 'Custom Booking',
@@ -168,34 +169,34 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
 
   return (
     <>
-      <nav className="p-8 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
+      <nav className="p-6 md:p-8 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
         <button onClick={onBack} className="p-3 hover:bg-slate-50 rounded-2xl transition-all text-slate-400 hover:text-slate-900"><ArrowLeft size={20} /></button>
       </nav>
 
-      <main className="flex-1 max-w-3xl mx-auto py-16 px-8 w-full">
-        <div className="mb-12">
-          <h2 className="text-4xl font-black tracking-tighter mb-4 uppercase">Filming Production Brief.</h2>
+      <main className="flex-1 max-w-3xl mx-auto py-8 md:py-16 px-4 md:px-8 w-full">
+        <div className="mb-8 md:mb-12">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tighter mb-4 uppercase">Filming Production Brief.</h2>
           <p className="text-slate-500 font-medium uppercase text-xs tracking-widest">Fill up the production brief and choose equipment for the filmmaker's confirmation.</p>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-6 md:space-y-10">
           {/* Filming Brief Section */}
-          <section className="bg-white border border-slate-200/80 rounded-[32px] p-10 text-slate-900 shadow-sm">
+          <section className="bg-white border border-slate-200/80 rounded-[24px] md:rounded-[32px] p-6 md:p-10 text-slate-900 shadow-sm">
             <h3 className="text-xs font-black uppercase text-slate-500 tracking-[0.25em] mb-8 flex items-center gap-2">
               <ClipboardList size={16} className="text-slate-900" /> 1. Project Logistical Briefing
             </h3>
-            
+
             <div className="space-y-8">
               <div>
                 <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Project Name / Description</label>
                 <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
                   <FileText className="text-slate-400" size={20} />
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={formData.projectName}
-                    placeholder="e.g. Summer Shoot Commercial..." 
-                    className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
-                    onChange={(e) => setFormData({...formData, projectName: e.target.value})} 
+                    placeholder="e.g. Summer Shoot Commercial..."
+                    className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left"
+                    onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
                   />
                 </div>
               </div>
@@ -204,12 +205,12 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
                 <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Venue Address / Location</label>
                 <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
                   <MapPinned className="text-slate-400" size={20} />
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={formData.venueAddress}
-                    placeholder="Full location details, studio name, or coordinates..." 
-                    className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
-                    onChange={(e) => setFormData({...formData, venueAddress: e.target.value})} 
+                    placeholder="Full location details, studio name, or coordinates..."
+                    className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left"
+                    onChange={(e) => setFormData({ ...formData, venueAddress: e.target.value })}
                   />
                 </div>
               </div>
@@ -219,12 +220,12 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
                   <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Preferred Shoot Date(s)</label>
                   <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
                     <CalendarIcon className="text-slate-400" size={20} />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={formData.shootDates}
-                      placeholder="e.g. June 15 - 17, 2026" 
-                      className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
-                      onChange={(e) => setFormData({...formData, shootDates: e.target.value})} 
+                      placeholder="e.g. June 15 - 17, 2026"
+                      className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left"
+                      onChange={(e) => setFormData({ ...formData, shootDates: e.target.value })}
                     />
                   </div>
                 </div>
@@ -232,12 +233,12 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
                   <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">On-Set Contact Info</label>
                   <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
                     <User className="text-slate-400" size={20} />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={formData.onsetContact}
-                      placeholder="Name & WhatsApp/Phone..." 
-                      className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
-                      onChange={(e) => setFormData({...formData, onsetContact: e.target.value})} 
+                      placeholder="Name & WhatsApp/Phone..."
+                      className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left"
+                      onChange={(e) => setFormData({ ...formData, onsetContact: e.target.value })}
                     />
                   </div>
                 </div>
@@ -246,28 +247,27 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
           </section>
 
           {/* Film Equipment Section */}
-          <section className="bg-white border border-slate-200/80 rounded-[32px] p-10 shadow-sm text-slate-900">
+          <section className="bg-white border border-slate-200/80 rounded-[24px] md:rounded-[32px] p-6 md:p-10 shadow-sm text-slate-900">
             <h3 className="text-xs font-black uppercase text-slate-500 tracking-[0.25em] mb-6 flex items-center gap-2">
               <Camera size={16} className="text-slate-900" /> 2. Film Equipment & Gear to be Used
             </h3>
-            
+
             <p className="text-slate-400 text-xs font-medium mb-6 uppercase tracking-wider leading-relaxed">
               Verify the gear stack configured for this shoot. Check/uncheck options to customize your equipment.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               {equipmentList.map((item, index) => (
-                <label 
-                  key={index} 
-                  className={`flex items-center gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${
-                    item.checked 
-                    ? 'bg-white border-slate-900 text-slate-900 shadow-sm font-bold' 
+                <label
+                  key={index}
+                  className={`flex items-center gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${item.checked
+                    ? 'bg-white border-slate-900 text-slate-900 shadow-sm font-bold'
                     : 'bg-transparent border-slate-200 text-slate-400 hover:border-slate-300'
-                  }`}
+                    }`}
                 >
-                  <input 
-                    type="checkbox" 
-                    checked={item.checked} 
+                  <input
+                    type="checkbox"
+                    checked={item.checked}
                     onChange={() => handleEquipmentChange(index)}
                     className="rounded border-slate-300 text-slate-900 focus:ring-slate-900 w-4 h-4 cursor-pointer"
                   />
@@ -279,17 +279,17 @@ const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) =
             <div>
               <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Additional Gear Requests or Technical Notes</label>
               <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-start gap-4">
-                <textarea 
-                  placeholder="e.g. Custom light gels, specialized mounts, specific framerates required..." 
-                  className="bg-transparent border-none w-full text-sm font-semibold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 min-h-[100px] resize-none text-left" 
-                  onChange={(e) => setFormData({...formData, additionalNotes: e.target.value})} 
+                <textarea
+                  placeholder="e.g. Custom light gels, specialized mounts, specific framerates required..."
+                  className="bg-transparent border-none w-full text-sm font-semibold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 min-h-[100px] resize-none text-left"
+                  onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
                 />
               </div>
             </div>
           </section>
 
-          <button 
-            onClick={handleSubmit} 
+          <button
+            onClick={handleSubmit}
             className="w-full py-6 bg-slate-900 text-white rounded-3xl font-black text-lg hover:bg-slate-800 transition-all shadow-2xl flex items-center justify-center gap-3 uppercase tracking-widest cursor-pointer"
           >
             Confirm & Send Booking Request <Zap size={20} fill="currentColor" />
@@ -310,6 +310,7 @@ const App = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isCalendarReadOnly, setIsCalendarReadOnly] = useState(false);
   const [isBookingSuccess, setIsBookingSuccess] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (isBookingSuccess) {
@@ -361,14 +362,14 @@ const App = () => {
     if (!range) return 'Select Date...';
     const { start, end } = range;
     if (!start) return 'Select Date...';
-    
+
     const options = { month: 'long', day: 'numeric', year: 'numeric' };
     const startStr = start.toLocaleDateString('en-US', options);
-    
+
     if (!end || start.getTime() === end.getTime()) {
       return startStr;
     }
-    
+
     const endStr = end.toLocaleDateString('en-US', options);
     return `${startStr} - ${endStr}`;
   };
@@ -389,7 +390,7 @@ const App = () => {
 
   const Footer = () => (
     <footer className="footer-reveal-container w-full bg-[#050505] border-t border-white/5 mt-10 shrink-0">
-      <div className="max-w-[1600px] mx-auto px-16 py-10">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-16 py-10">
         <div className="flex flex-col items-center justify-center text-center space-y-6">
           <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Global Partners</h4>
           <div className="flex flex-wrap justify-center gap-x-12 gap-y-4">
@@ -409,7 +410,7 @@ const App = () => {
   return (
     <div className="flex flex-col min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
       <StudioCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} readOnly={isCalendarReadOnly} />
-      
+
       {isBookingSuccess && (
         <div className="fixed bottom-8 right-8 z-[100] max-w-sm p-6 bg-slate-900 text-white rounded-[24px] flex items-center gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 animate-in slide-in-from-bottom-5 fade-in duration-300">
           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900 shrink-0 shadow-md">
@@ -421,21 +422,21 @@ const App = () => {
           </div>
         </div>
       )}
-      
+
       {currentPage === 'storefront' ? (
         <>
-          <header className="px-16 pt-10 pb-6 border-b border-slate-50 bg-white shrink-0">
-            <div className="grid grid-cols-3 items-center mb-16">
+          <header className="relative px-6 md:px-16 pt-6 md:pt-10 pb-6 border-b border-slate-50 bg-white shrink-0">
+            <div className="flex items-center justify-between sm:grid sm:grid-cols-3 sm:items-center mb-8 md:mb-16 gap-6">
               {/* Search (Left) */}
-              <div className="flex items-center justify-start">
+              <div className="hidden sm:flex items-center justify-center sm:justify-start w-full sm:w-auto order-3 sm:order-1">
                 <div className="flex items-center relative h-8">
                   <button onClick={toggleSearch} className="text-slate-900 z-10 hover:opacity-60 transition-all">
                     <Search size={20} strokeWidth={1.25} />
                   </button>
-                  <input 
+                  <input
                     ref={searchInputRef}
-                    type="text" 
-                    placeholder="SEARCH SERVICES..." 
+                    type="text"
+                    placeholder="SEARCH SERVICES..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onBlur={() => searchQuery === '' && setIsSearchExpanded(false)}
@@ -446,17 +447,17 @@ const App = () => {
               </div>
 
               {/* Logo (Center) */}
-              <div className="flex items-center justify-center">
-                 <h1 className="text-[22px] font-black tracking-tighter uppercase text-center text-slate-900">HANA PHOTOGRAPHY & FILM</h1>
+              <div className="flex items-center justify-center order-1 sm:order-2 w-full sm:w-auto px-4 sm:px-0">
+                <h1 className="text-[14px] min-[360px]:text-[16px] min-[390px]:text-[18px] min-[420px]:text-[21px] sm:text-3xl md:text-[34px] font-black tracking-tighter uppercase text-center text-slate-900 leading-none whitespace-nowrap">HANA PHOTOGRAPHY & FILM</h1>
               </div>
 
               {/* Icons (Right) */}
-              <div className="flex items-center justify-end gap-6">
-                <button 
+              <div className="hidden sm:flex items-center justify-end gap-6 order-2 sm:order-3">
+                <button
                   onClick={() => {
                     setIsCalendarReadOnly(true);
                     setIsCalendarOpen(true);
-                  }} 
+                  }}
                   className="text-slate-900 hover:opacity-60 transition-all relative"
                 >
                   <CalendarIcon size={20} strokeWidth={1.25} />
@@ -469,15 +470,14 @@ const App = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex items-center justify-center gap-10">
+            <nav className="flex items-center justify-start md:justify-center gap-6 md:gap-10 overflow-x-auto no-scrollbar whitespace-nowrap -mx-6 md:mx-0 px-6 md:px-0 pb-3 md:pb-0 w-full">
               {['ALL PACKAGES', 'COMMERCIALS', 'EVENTS', 'PORTRAIT STUDIO', 'SOCIAL MEDIA'].map(cat => (
-                <button 
-                  key={cat} 
-                  onClick={() => setSelectedCategory(cat === 'ALL PACKAGES' ? 'All Packages' : cat === 'PORTRAIT STUDIO' ? 'Portrait Studio' : cat)} 
-                  className={`text-[10px] font-black uppercase tracking-[0.25em] transition-all relative pb-3 ${
-                    (selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat === 'ALL PACKAGES' ? 'All Packages' : cat === 'PORTRAIT STUDIO' ? 'Portrait Studio' : cat)}
+                  className={`text-[10px] font-black uppercase tracking-[0.25em] transition-all relative pb-3 ${(selectedCategory === 'All Packages' && cat === 'ALL PACKAGES') || (selectedCategory.toUpperCase() === cat)
                     ? 'text-slate-900' : 'text-slate-400 hover:text-slate-900'
-                  }`}
+                    }`}
                 >
 
                   {cat}
@@ -489,9 +489,9 @@ const App = () => {
             </nav>
           </header>
 
-          <main className="flex-1 max-w-[1600px] mx-auto px-16 pt-4 pb-4 w-full">
+          <main className="flex-1 max-w-[1600px] mx-auto px-6 md:px-16 pt-4 pb-4 w-full">
 
-            <div className="grid grid-cols-4 gap-x-8 gap-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
               {filteredPackages.map(pkg => (
                 <div key={pkg.id} onClick={() => setActivePackage(pkg)} className="group cursor-pointer flex flex-col">
                   <div className="relative aspect-[1.6/1] overflow-hidden rounded-[40px] bg-slate-50 mb-4 border border-slate-100 shrink-0">
@@ -500,14 +500,14 @@ const App = () => {
                       {pkg.stockStatus}
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col flex-1">
                     <div className="space-y-1.5 pr-4">
                       <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">{pkg.category}</p>
                       <h3 className="text-xl font-black text-slate-900 tracking-tight leading-none">{pkg.title}</h3>
                       <p className="text-slate-400 text-sm font-medium italic opacity-80">{pkg.details}</p>
                     </div>
-                    
+
                     <div className="flex items-center justify-between pt-4 mt-auto">
                       <p className="text-2xl font-black text-slate-900 tracking-tighter">₱{pkg?.price?.toLocaleString() || '0'}</p>
                       <div className="w-10 h-10 bg-[#F8F9FA] rounded-full flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
@@ -529,12 +529,12 @@ const App = () => {
         <>
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60]" onClick={() => setActivePackage(null)} />
           <aside className="fixed inset-y-0 right-0 w-full max-w-md bg-white z-[70] shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 border-l border-slate-100">
-            <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between">
+            <div className="px-6 sm:px-8 py-6 border-b border-slate-50 flex items-center justify-between">
               <h2 className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Service Overview</h2>
               <button onClick={() => setActivePackage(null)} className="p-2 hover:bg-slate-50 rounded-full transition-colors"><X size={20} className="text-slate-400" /></button>
             </div>
-            
-            <div className="flex-1 overflow-y-auto p-8 space-y-8">
+
+            <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-8">
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-[8px] font-black px-2 py-0.5 bg-slate-100 text-slate-500 rounded uppercase tracking-widest border border-slate-200">{activePackage?.category}</span>
@@ -556,11 +556,11 @@ const App = () => {
               <section className="space-y-6">
                 <div>
                   <label className="text-[9px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Production Date</label>
-                  <button 
+                  <button
                     onClick={() => {
                       setIsCalendarReadOnly(false);
                       setIsCalendarOpen(true);
-                    }} 
+                    }}
                     className={`w-full px-4 py-3 rounded-xl border text-left transition-all flex items-center justify-between group ${selectedDate ? 'bg-white border-slate-900' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}
                   >
                     <span className={`text-sm font-bold ${selectedDate ? 'text-slate-900' : 'text-slate-400'}`}>
@@ -581,8 +581,8 @@ const App = () => {
             </div>
 
             <div className="p-8 border-t border-slate-50 bg-white">
-              <button 
-                className="w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-3 uppercase tracking-widest bg-slate-900 text-white hover:bg-slate-800 cursor-pointer shadow-md" 
+              <button
+                className="w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-3 uppercase tracking-widest bg-slate-900 text-white hover:bg-slate-800 cursor-pointer shadow-md"
                 onClick={handleInitiateBooking}
               >
                 <Zap size={16} fill="currentColor" /> Initiate Request

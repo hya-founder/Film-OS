@@ -7,7 +7,8 @@ import {
   Clock, 
   CreditCard,
   MessageSquare,
-  CheckCircle
+  CheckCircle,
+  ArrowLeft
 } from 'lucide-react';
 
 const INITIAL_LEADS = [
@@ -63,6 +64,10 @@ const InquiryInbox = () => {
   const [activeTab, setActiveTab] = useState('brief');
   const [replyText, setReplyText] = useState('');
   
+  // Mobile responsiveness views state
+  const [showMobileDetails, setShowMobileDetails] = useState(true); // default true since default activeLeadId is 'L-002'
+  const [mobileTab, setMobileTab] = useState('chat'); // 'chat' | 'details'
+
   // Quote State
   const [quoteAmount, setQuoteAmount] = useState('');
   const [downpaymentPercent, setDownpaymentPercent] = useState(50);
@@ -96,19 +101,22 @@ const InquiryInbox = () => {
   };
 
   return (
-    <div className="flex-1 flex overflow-hidden bg-white">
+    <div className="flex-1 flex overflow-hidden bg-white min-h-[calc(100vh-4rem)] md:min-h-0 pb-16 md:pb-0">
       
       {/* Column 1: Inquiry Inbox (25%) */}
-      <section className="w-1/4 border-r border-slate-200/50 flex flex-col bg-white">
-        <header className="p-6 border-b border-slate-200/50">
+      <section className={`w-full lg:w-1/4 border-r border-slate-200/50 flex flex-col bg-white ${showMobileDetails ? 'hidden lg:flex' : 'flex'}`}>
+        <header className="p-6 border-b border-slate-200/50 text-left">
           <h2 className="text-[7px] font-black tracking-[0.5em] opacity-50 uppercase text-slate-400">INQUIRY INBOX</h2>
         </header>
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {leads.map(lead => (
             <div 
               key={lead.id} 
-              onClick={() => setActiveLeadId(lead.id)}
-              className={`p-5 rounded-[24px] border transition-all cursor-pointer shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${activeLeadId === lead.id ? 'border-slate-900 bg-white' : 'border-slate-200/50 hover:border-slate-300'}`}
+              onClick={() => {
+                setActiveLeadId(lead.id);
+                setShowMobileDetails(true);
+              }}
+              className={`p-5 rounded-[24px] border transition-all cursor-pointer shadow-[0_1px_2px_rgba(0,0,0,0.02)] text-left ${activeLeadId === lead.id ? 'border-slate-900 bg-white' : 'border-slate-200/50 hover:border-slate-300'}`}
             >
               <div className="flex justify-between items-center mb-3">
                 <SourceTag source={lead.source} />
@@ -122,15 +130,47 @@ const InquiryInbox = () => {
       </section>
 
       {/* Column 2: Active Chat (50%) */}
-      <main className="w-1/2 flex flex-col bg-white border-r border-slate-200/50">
+      <main className={`w-full lg:w-1/2 flex flex-col bg-white border-r border-slate-200/50 ${showMobileDetails && mobileTab === 'chat' ? 'flex' : 'hidden lg:flex'}`}>
         {activeLead ? (
           <>
-            <header className="h-20 border-b border-slate-200/50 px-8 flex items-center justify-between bg-white/80 backdrop-blur-md">
-              <div className="flex items-center gap-4">
-                <h2 className="text-xl font-black uppercase tracking-tight">{activeLead.name}</h2>
-                <SourceTag source={activeLead.source} />
+            <header className="h-20 border-b border-slate-200/50 px-4 md:px-8 flex items-center justify-between bg-white/80 backdrop-blur-md text-left">
+              <div className="flex items-center gap-2 md:gap-4">
+                <button 
+                  onClick={() => setShowMobileDetails(false)}
+                  className="lg:hidden p-2 hover:bg-slate-50 rounded-xl text-slate-500"
+                >
+                  <ArrowLeft size={18} />
+                </button>
+                <div>
+                  <h2 className="text-base md:text-xl font-black uppercase tracking-tight truncate max-w-[120px] sm:max-w-xs">{activeLead.name}</h2>
+                  <div className="mt-1 lg:hidden">
+                    <SourceTag source={activeLead.source} />
+                  </div>
+                </div>
+                <div className="hidden lg:block">
+                  <SourceTag source={activeLead.source} />
+                </div>
               </div>
-              <MoreHorizontal className="text-slate-300" />
+
+              {/* Mobile Chat/Details Toggle */}
+              <div className="lg:hidden flex bg-slate-100 p-1 rounded-xl shrink-0">
+                <button 
+                  onClick={() => setMobileTab('chat')}
+                  className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-wider rounded-lg transition-all ${mobileTab === 'chat' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-400'}`}
+                >
+                  Chat
+                </button>
+                <button 
+                  onClick={() => setMobileTab('details')}
+                  className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-wider rounded-lg transition-all ${mobileTab === 'details' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-400'}`}
+                >
+                  Details
+                </button>
+              </div>
+
+              <div className="hidden lg:block">
+                <MoreHorizontal className="text-slate-300" />
+              </div>
             </header>
             
             <div className="flex-1 overflow-y-auto p-8 space-y-6">
@@ -169,7 +209,34 @@ const InquiryInbox = () => {
       </main>
 
       {/* Column 3: Management Panel (25%) */}
-      <aside className="w-1/4 flex flex-col bg-white overflow-y-auto">
+      <aside className={`w-full lg:w-1/4 flex flex-col bg-white overflow-y-auto ${showMobileDetails && mobileTab === 'details' ? 'flex' : 'hidden lg:flex'}`}>
+        {/* Back button and Toggle for details on mobile */}
+        <div className="lg:hidden h-20 border-b border-slate-200/50 px-4 flex items-center justify-between bg-white shrink-0">
+          <div className="flex items-center gap-2 text-left">
+            <button 
+              onClick={() => setShowMobileDetails(false)}
+              className="p-2 hover:bg-slate-50 rounded-xl text-slate-500"
+            >
+              <ArrowLeft size={18} />
+            </button>
+            <h2 className="text-sm font-black uppercase tracking-wider">Project Panel</h2>
+          </div>
+          <div className="flex bg-slate-100 p-1 rounded-xl">
+            <button 
+              onClick={() => setMobileTab('chat')}
+              className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-wider rounded-lg transition-all ${mobileTab === 'chat' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-400'}`}
+            >
+              Chat
+            </button>
+            <button 
+              onClick={() => setMobileTab('details')}
+              className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-wider rounded-lg transition-all ${mobileTab === 'details' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-400'}`}
+            >
+              Details
+            </button>
+          </div>
+        </div>
+
         <nav className="flex border-b border-slate-200/50 sticky top-0 bg-white z-10">
           <button 
             onClick={() => setActiveTab('brief')}

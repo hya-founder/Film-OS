@@ -22,21 +22,21 @@ const Inventory = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-white p-12 overflow-y-auto">
+    <div className="flex-1 flex flex-col bg-white p-4 sm:p-6 md:p-12 overflow-y-auto pb-24">
       {/* 1. Header Section */}
-      <header className="flex justify-between items-start mb-12">
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-12 text-left">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Equipment Tracker</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Equipment Tracker</h1>
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-sky-400 mt-1">LIVE ASSET MANAGEMENT</p>
         </div>
-        <button className="px-6 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:bg-slate-800 transition-all shadow-lg">
+        <button className="px-6 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:bg-slate-800 transition-all shadow-lg cursor-pointer">
           <Plus size={16} /> ADD GEAR
         </button>
       </header>
 
       {/* 2. Asset Table Structure */}
-      <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
-        <table className="w-full text-left border-collapse">
+      <div className="bg-white rounded-[24px] md:rounded-[32px] border border-slate-100 shadow-sm overflow-x-auto no-scrollbar">
+        <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
             <tr className="border-b border-slate-50 bg-slate-50/50">
               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">ITEM NAME</th>

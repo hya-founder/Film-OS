@@ -26,38 +26,38 @@ const Home = () => {
   ];
 
   return (
-    <div className="grid grid-cols-12 gap-4 p-8 bg-slate-50 min-h-screen text-slate-900 font-sans w-full overflow-y-auto">
+    <div className="grid grid-cols-12 gap-4 p-4 md:p-8 bg-slate-50 min-h-screen text-slate-900 font-sans w-full overflow-y-auto pb-24 md:pb-8">
       
       {/* 2. The "Live Pulse" Header (Span 12) */}
-      <header className="col-span-12 h-20 bg-white border border-slate-200 shadow-sm rounded-2xl px-8 flex items-center justify-between relative overflow-hidden">
+      <header className="col-span-12 h-auto md:h-20 bg-white border border-slate-200 shadow-sm rounded-2xl px-4 md:px-8 py-4 md:py-0 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
         
-        <div className="flex items-center gap-8">
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-center sm:text-left">
           <div className="flex items-center gap-3 px-4 py-2 bg-red-50 text-red-600 border border-red-100 rounded-full animate-pulse">
             <div className="w-2 h-2 bg-red-600 rounded-full shadow-[0_0_8px_rgba(220,38,38,0.4)]"></div>
             <span className="text-[10px] font-black uppercase tracking-[0.3em]">LIVE ON SET</span>
           </div>
-          <div className="h-6 w-px bg-slate-200"></div>
+          <div className="hidden sm:block h-6 w-px bg-slate-200"></div>
           <div className="flex flex-col">
             <span className="text-[8px] font-black uppercase tracking-[0.4em] text-slate-400 mb-1">Current Production State</span>
             <span className="text-sm font-black tracking-tight text-slate-900 uppercase">SCENE 42B - THE LAB (INT) | SHOT 4/12</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-10 font-mono text-slate-400">
-          <div className="text-right">
+        <div className="flex items-center gap-6 sm:gap-10 font-mono text-slate-400">
+          <div className="text-center sm:text-right">
             <p className="text-[8px] font-black uppercase tracking-[0.4em] mb-1">UTC TIME</p>
-            <p className="text-lg font-mono tracking-tighter">{formatTime(time, true)}</p>
+            <p className="text-sm sm:text-lg font-mono tracking-tighter">{formatTime(time, true)}</p>
           </div>
-          <div className="text-right">
+          <div className="text-center sm:text-right">
             <p className="text-[8px] font-black uppercase tracking-[0.4em] mb-1">LOCAL (MNL)</p>
-            <p className="text-lg font-mono tracking-tighter">{formatTime(time)}</p>
+            <p className="text-sm sm:text-lg font-mono tracking-tighter">{formatTime(time)}</p>
           </div>
         </div>
       </header>
 
       {/* 3. Core Dashboard Content - Left Column (Span 8) */}
-      <section className="col-span-8 flex flex-col gap-4">
+      <section className="col-span-12 lg:col-span-8 flex flex-col gap-4">
         <div className="bg-white border border-slate-200 shadow-sm rounded-2xl flex-1 flex flex-col overflow-hidden">
           <header className="p-6 border-b border-slate-200 flex justify-between items-center">
             <h2 className="text-[8px] font-black uppercase tracking-[0.4em] text-slate-400">ONGOING PROJECTS</h2>
@@ -95,7 +95,7 @@ const Home = () => {
       </section>
 
       {/* Right Column (Span 4): Production Vitals */}
-      <aside className="col-span-4 flex flex-col gap-4">
+      <aside className="col-span-12 lg:col-span-4 flex flex-col gap-4">
         {/* Card 1: WEATHER */}
         <div className="p-6 bg-white border border-slate-200 shadow-sm rounded-2xl relative overflow-hidden">
           <h3 className="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase mb-6">WEATHER / SAFETY</h3>
