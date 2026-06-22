@@ -350,7 +350,7 @@ const App = () => {
   }, [activePackage, selectedDate]);
 
   const handleAdminRedirect = () => {
-    window.location.href = '/admin';
+    window.location.href = '/admin/';
   };
 
   const handleInitiateBooking = () => {
