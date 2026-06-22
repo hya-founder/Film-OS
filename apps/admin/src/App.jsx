@@ -5,7 +5,7 @@ import {
   Check, CreditCard, X, Edit3, Target,
   MessageSquare,
   Plus, Instagram, FileText, Receipt, ClipboardList, ArrowLeft,
-  Megaphone, LifeBuoy
+  Megaphone, LifeBuoy, LogOut
 } from 'lucide-react';
 import Inventory from './pages/Inventory';
 import Analytics from './pages/Analytics';
@@ -14,6 +14,7 @@ import ControlCenter from './pages/ControlCenter';
 import Expenses from './pages/Expenses';
 import CommunicationHub from './pages/CommunicationHub';
 import InquiryInbox from './pages/InquiryInbox';
+import SignIn from './pages/SignIn';
 
 // --- INITIAL MOCK DATA ---
 const INITIAL_LEADS = [
@@ -64,6 +65,9 @@ const SourceTag = ({ source }) => (
 );
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('admin_logged_in') === 'true';
+  });
   const [view, setView] = useState('HOME'); 
   const [leads, setLeads] = useState(INITIAL_LEADS);
   const [activeLeadId, setActiveLeadId] = useState('L-002');
@@ -71,6 +75,15 @@ const App = () => {
   const [replyText, setReplyText] = useState('');
   
   const activeLead = useMemo(() => leads.find(l => l.id === activeLeadId), [leads, activeLeadId]);
+
+  const handleSignIn = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('admin_logged_in', 'true');
+  };
+
+  if (!isLoggedIn) {
+    return <SignIn onSignIn={handleSignIn} />;
+  }
 
   const handleSendMessage = () => {
     if (!replyText.trim()) return;
@@ -150,6 +163,16 @@ const App = () => {
             </div>
           </button>
         </nav>
+        <button 
+          onClick={() => {
+            setIsLoggedIn(false);
+            localStorage.removeItem('admin_logged_in');
+          }}
+          title="Sign Out"
+          className="mt-auto bg-red-50 hover:bg-red-100 text-red-600 rounded-xl p-3 transition-all shadow-sm flex items-center justify-center cursor-pointer"
+        >
+          <LogOut size={20} />
+        </button>
       </aside>
 
       <main className="flex-1 h-full overflow-y-auto p-12">

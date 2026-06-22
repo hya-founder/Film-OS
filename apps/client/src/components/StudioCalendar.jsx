@@ -3,14 +3,15 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../styles/StudioCalendar.module.css';
 
 const BOOKED_DATES = [
-  new Date(2026, 2, 1),
-  new Date(2026, 2, 2),
-  new Date(2026, 2, 3),
-  new Date(2026, 2, 4),
-  new Date(2026, 2, 5),
-  new Date(2026, 2, 8),
-  new Date(2026, 2, 15),
-  new Date(2026, 2, 22)
+  new Date(2026, 5, 10),
+  new Date(2026, 5, 11),
+  new Date(2026, 5, 12),
+  new Date(2026, 5, 13),
+  new Date(2026, 5, 14),
+  new Date(2026, 5, 15),
+  new Date(2026, 5, 16),
+  new Date(2026, 5, 17),
+  new Date(2026, 5, 18)
 ];
 
 const isSameDay = (d1, d2) => {
@@ -22,19 +23,26 @@ const isSameDay = (d1, d2) => {
   );
 };
 
-const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
+const StudioCalendar = ({ isOpen, onClose, onSelect, selectedDate, readOnly = false }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [viewDate, setViewDate] = useState(new Date(2026, 2, 1)); // March 2026
+  const [viewDate, setViewDate] = useState(new Date(2026, 5, 1)); // June 2026
 
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('no-scroll');
+      if (!readOnly && selectedDate) {
+        setStartDate(selectedDate.start || null);
+        setEndDate(selectedDate.end || null);
+      } else {
+        setStartDate(null);
+        setEndDate(null);
+      }
     } else {
       document.body.classList.remove('no-scroll');
     }
     return () => document.body.classList.remove('no-scroll');
-  }, [isOpen]);
+  }, [isOpen, selectedDate, readOnly]);
 
   if (!isOpen) return null;
 
@@ -80,6 +88,7 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
   };
 
   const handleDateClick = (date) => {
+    if (readOnly) return;
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate(null);
@@ -140,29 +149,42 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
         </div>
 
         <div className="px-5 pb-3 shrink-0">
-          <div className={styles.summary_container}>
-            <div>
-              <span className={styles.summary_label}>WHEN</span>
+          {readOnly ? (
+            <div className="flex items-center justify-start gap-6 py-2">
               <div className="flex items-center gap-2">
-                <span className={styles.summary_dates}>
-                  {formatDateRange(startDate, endDate)}
-                </span>
-                {startDate && (
-                  <button 
-                    onClick={() => { setStartDate(null); setEndDate(null); }} 
-                    className={styles.reset_button}
-                  >
-                    <X size={12} />
-                  </button>
-                )}
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Available</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Booked</span>
               </div>
             </div>
-            {startDate && (
-              <div className={styles.day_badge}>
-                {calculateDays(startDate, endDate)} {calculateDays(startDate, endDate) === 1 ? 'Day' : 'Days'}
+          ) : (
+            <div className={styles.summary_container}>
+              <div>
+                <span className={styles.summary_label}>WHEN</span>
+                <div className="flex items-center gap-2">
+                  <span className={styles.summary_dates}>
+                    {formatDateRange(startDate, endDate)}
+                  </span>
+                  {startDate && (
+                    <button 
+                      onClick={() => { setStartDate(null); setEndDate(null); }} 
+                      className={styles.reset_button}
+                    >
+                      <X size={12} />
+                    </button>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
+              {startDate && (
+                <div className={styles.day_badge}>
+                  {calculateDays(startDate, endDate)} {calculateDays(startDate, endDate) === 1 ? 'Day' : 'Days'}
+                </div>
+              )}
+            </div>
+          )}
           <div className={styles.divider} />
         </div>
         
@@ -180,7 +202,7 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
               const inRange = isInRange(date);
               
               let cellClass = styles.day_cell;
-              let buttonClass = `${styles.day} ${isBooked ? styles.day_booked : ''} ${(isStart || isEnd) ? styles.activeCircle : ''}`;
+              let buttonClass = `${styles.day} ${isBooked ? styles.day_booked : ''} ${(isStart || isEnd) ? styles.activeCircle : ''} ${readOnly ? 'pointer-events-none cursor-default' : ''}`;
               
               if (inRange) {
                 cellClass += ` ${styles.rangeBridge}`;
@@ -201,7 +223,10 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
                     className={buttonClass}
                     style={(isStart || isEnd) ? { backgroundColor: '#000', color: '#fff' } : {}}
                   >
-                    <span className="relative z-[11]">{date.getDate()}</span>
+                    <div className="flex flex-col items-center justify-center gap-0.5 relative z-[11] h-full w-full">
+                      <span className={`w-1 h-1 rounded-full ${isBooked ? 'bg-red-500' : 'bg-emerald-500'} ${isStart || isEnd ? 'bg-white' : ''}`} />
+                      <span className="text-[11px] font-black leading-none">{date.getDate()}</span>
+                    </div>
                   </button>
                 </div>
               );
@@ -209,15 +234,17 @@ const StudioCalendar = ({ isOpen, onClose, onSelect }) => {
           </div>
         </div>
 
-        <div className="p-5 border-t border-slate-50 bg-white shrink-0 sticky bottom-0">
-          <button 
-            onClick={handleConfirm}
-            disabled={!startDate}
-            className={`${styles.confirm_button} ${startDate ? styles.confirm_button_active : styles.confirm_button_disabled}`}
-          >
-            Confirm Selection
-          </button>
-        </div>
+        {!readOnly && (
+          <div className="p-5 border-t border-slate-50 bg-white shrink-0 sticky bottom-0">
+            <button 
+              onClick={handleConfirm}
+              disabled={!startDate}
+              className={`${styles.confirm_button} ${startDate ? styles.confirm_button_active : styles.confirm_button_disabled}`}
+            >
+              Confirm Selection
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

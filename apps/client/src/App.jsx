@@ -75,28 +75,225 @@ const PACKAGES = [
   }
 ];
 
-const BookingDetailsForm = ({ onBack, onSubmit }) => {
-  const [formData, setFormData] = useState({ venueAddress: '', shootDates: '', techRequirements: '', onsetContact: '' });
+const BookingDetailsForm = ({ activePackage, selectedDate, onBack, onSubmit }) => {
+  // Helper to format selectedDate
+  const formatDates = (range) => {
+    if (!range) return '';
+    const { start, end } = range;
+    if (!start) return '';
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    const startStr = start.toLocaleDateString('en-US', options);
+    if (!end || start.getTime() === end.getTime()) {
+      return startStr;
+    }
+    const endStr = end.toLocaleDateString('en-US', options);
+    return `${startStr} - ${endStr}`;
+  };
+
+  // Default equipment list based on package
+  const getDefaultEquipment = (pkgId) => {
+    switch (pkgId) {
+      case 'PKG-001': // Commercial 4K Package
+        return [
+          { name: '4K Cinema Primary Camera (Red/Arri/Sony)', checked: true },
+          { name: '4K Cinema Secondary Camera (B-Cam)', checked: true },
+          { name: 'Prime Cine Lens Kit (35mm, 50mm, 85mm)', checked: true },
+          { name: 'Wireless Video Transmission System', checked: true },
+          { name: '3-Point Continuous LED Lighting Setup', checked: false },
+          { name: 'Professional Sound Recordist & Boom Kit', checked: false }
+        ];
+      case 'PKG-002': // FPV Drone Specialist
+        return [
+          { name: '60fps 4K CineWhoop FPV Drone', checked: true },
+          { name: 'GoPro Hero 12 Black Action Cam', checked: true },
+          { name: 'DJI FPV Goggles & Controller', checked: true },
+          { name: 'High-Capacity Battery Pack Set', checked: true },
+          { name: 'Secondary Backup CineWhoop Drone', checked: false }
+        ];
+      case 'PKG-003': // Music Video Pro
+        return [
+          { name: 'Anamorphic Glass Lens Kit', checked: true },
+          { name: '4K Cinema Camera body', checked: true },
+          { name: 'Gimbal Stabilizer System', checked: true },
+          { name: 'Color Grading Suite Suite Grade', checked: true },
+          { name: 'Fog/Haze Machine Effects', checked: false },
+          { name: 'Studio LED Panel Lights', checked: false }
+        ];
+      case 'PKG-004': // Real Estate Walkthrough
+        return [
+          { name: '4K Stabilized Gimbal Camera', checked: true },
+          { name: 'Wide-angle Zoom Lens', checked: true },
+          { name: 'HDR Stills Camera Kit', checked: true },
+          { name: 'Compact LED Panels & Light Stands', checked: true },
+          { name: 'Standard Aerial Drone Scenic Shots', checked: false }
+        ];
+      default:
+        return [
+          { name: '4K Cinema Camera System', checked: true },
+          { name: 'Standard Zoom Lens Kit', checked: true },
+          { name: 'Wireless Lavalier Microphone Kit', checked: true }
+        ];
+    }
+  };
+
+  const [formData, setFormData] = useState({
+    projectName: '',
+    venueAddress: '',
+    shootDates: formatDates(selectedDate),
+    onsetContact: '',
+    additionalNotes: ''
+  });
+
+  const [equipmentList, setEquipmentList] = useState(
+    getDefaultEquipment(activePackage?.id)
+  );
+
+  const handleEquipmentChange = (index) => {
+    setEquipmentList(prev => prev.map((item, idx) => 
+      idx === index ? { ...item, checked: !item.checked } : item
+    ));
+  };
+
+  const handleSubmit = () => {
+    const selectedEquipment = equipmentList
+      .filter(item => item.checked)
+      .map(item => item.name);
+    
+    onSubmit({
+      ...formData,
+      packageTitle: activePackage?.title || 'Custom Booking',
+      equipment: selectedEquipment
+    });
+  };
+
   return (
     <>
-      <nav className="p-8 border-b border-slate-100 flex items-center gap-6 shrink-0">
+      <nav className="p-8 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
         <button onClick={onBack} className="p-3 hover:bg-slate-50 rounded-2xl transition-all text-slate-400 hover:text-slate-900"><ArrowLeft size={20} /></button>
-        <h1 className="text-xl font-black tracking-tight uppercase">Booking Details</h1>
       </nav>
-      <main className="flex-1 max-w-2xl mx-auto py-20 px-8 w-full">
-        <div className="mb-12"><h2 className="text-4xl font-black tracking-tighter mb-4 uppercase">Production Briefing.</h2><p className="text-slate-500 font-medium uppercase text-xs tracking-widest">Submit logistical details for your upcoming shoot.</p></div>
+
+      <main className="flex-1 max-w-3xl mx-auto py-16 px-8 w-full">
+        <div className="mb-12">
+          <h2 className="text-4xl font-black tracking-tighter mb-4 uppercase">Filming Production Brief.</h2>
+          <p className="text-slate-500 font-medium uppercase text-xs tracking-widest">Fill up the production brief and choose equipment for the filmmaker's confirmation.</p>
+        </div>
+
         <div className="space-y-10">
-          <section className="bg-slate-900 rounded-[32px] p-10 text-white shadow-2xl">
+          {/* Filming Brief Section */}
+          <section className="bg-white border border-slate-200/80 rounded-[32px] p-10 text-slate-900 shadow-sm">
+            <h3 className="text-xs font-black uppercase text-slate-500 tracking-[0.25em] mb-8 flex items-center gap-2">
+              <ClipboardList size={16} className="text-slate-900" /> 1. Project Logistical Briefing
+            </h3>
+            
             <div className="space-y-8">
-              <div><label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 block">Venue Address</label><div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4"><MapPinned className="text-indigo-400" size={20} /><input type="text" placeholder="Full location or studio address..." className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-white/10" onChange={(e) => setFormData({...formData, venueAddress: e.target.value})} /></div></div>
-              <div className="grid grid-cols-2 gap-6">
-                <div><label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 block">Shoot Dates</label><div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4"><CalendarIcon className="text-indigo-400" size={20} /><input type="text" placeholder="e.g. March 15-17" className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-white/10" onChange={(e) => setFormData({...formData, shootDates: e.target.value})} /></div></div>
-                <div><label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 block">On-Set Contact</label><div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4"><User className="text-indigo-400" size={20} /><input type="text" placeholder="Name & WhatsApp..." className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-white/10" onChange={(e) => setFormData({...formData, onsetContact: e.target.value})} /></div></div>
+              <div>
+                <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Project Name / Description</label>
+                <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
+                  <FileText className="text-slate-400" size={20} />
+                  <input 
+                    type="text" 
+                    value={formData.projectName}
+                    placeholder="e.g. Summer Shoot Commercial..." 
+                    className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
+                    onChange={(e) => setFormData({...formData, projectName: e.target.value})} 
+                  />
+                </div>
               </div>
-              <div><label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 block">Technical Requirements</label><div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-start gap-4"><Camera className="text-indigo-400 mt-1" size={20} /><textarea placeholder="List specific gear, lighting styles, or frame rate requirements..." className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-white/10 min-h-[120px] resize-none" onChange={(e) => setFormData({...formData, techRequirements: e.target.value})} /></div></div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Venue Address / Location</label>
+                <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
+                  <MapPinned className="text-slate-400" size={20} />
+                  <input 
+                    type="text" 
+                    value={formData.venueAddress}
+                    placeholder="Full location details, studio name, or coordinates..." 
+                    className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
+                    onChange={(e) => setFormData({...formData, venueAddress: e.target.value})} 
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Preferred Shoot Date(s)</label>
+                  <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
+                    <CalendarIcon className="text-slate-400" size={20} />
+                    <input 
+                      type="text" 
+                      value={formData.shootDates}
+                      placeholder="e.g. June 15 - 17, 2026" 
+                      className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
+                      onChange={(e) => setFormData({...formData, shootDates: e.target.value})} 
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">On-Set Contact Info</label>
+                  <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-center gap-4">
+                    <User className="text-slate-400" size={20} />
+                    <input 
+                      type="text" 
+                      value={formData.onsetContact}
+                      placeholder="Name & WhatsApp/Phone..." 
+                      className="bg-transparent border-none w-full text-sm font-bold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 text-left" 
+                      onChange={(e) => setFormData({...formData, onsetContact: e.target.value})} 
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
-          <button onClick={() => onSubmit(formData)} className="w-full py-6 bg-slate-900 text-white rounded-3xl font-black text-lg hover:bg-slate-800 transition-all shadow-2xl flex items-center justify-center gap-3 uppercase tracking-widest">Submit Production Details <Zap size={20} fill="currentColor" /></button>
+
+          {/* Film Equipment Section */}
+          <section className="bg-white border border-slate-200/80 rounded-[32px] p-10 shadow-sm text-slate-900">
+            <h3 className="text-xs font-black uppercase text-slate-500 tracking-[0.25em] mb-6 flex items-center gap-2">
+              <Camera size={16} className="text-slate-900" /> 2. Film Equipment & Gear to be Used
+            </h3>
+            
+            <p className="text-slate-400 text-xs font-medium mb-6 uppercase tracking-wider leading-relaxed">
+              Verify the gear stack configured for this shoot. Check/uncheck options to customize your equipment.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              {equipmentList.map((item, index) => (
+                <label 
+                  key={index} 
+                  className={`flex items-center gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${
+                    item.checked 
+                    ? 'bg-white border-slate-900 text-slate-900 shadow-sm font-bold' 
+                    : 'bg-transparent border-slate-200 text-slate-400 hover:border-slate-300'
+                  }`}
+                >
+                  <input 
+                    type="checkbox" 
+                    checked={item.checked} 
+                    onChange={() => handleEquipmentChange(index)}
+                    className="rounded border-slate-300 text-slate-900 focus:ring-slate-900 w-4 h-4 cursor-pointer"
+                  />
+                  <span className="text-xs">{item.name}</span>
+                </label>
+              ))}
+            </div>
+
+            <div>
+              <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4 block">Additional Gear Requests or Technical Notes</label>
+              <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 flex items-start gap-4">
+                <textarea 
+                  placeholder="e.g. Custom light gels, specialized mounts, specific framerates required..." 
+                  className="bg-transparent border-none w-full text-sm font-semibold focus:ring-0 p-0 placeholder:text-slate-300 text-slate-900 min-h-[100px] resize-none text-left" 
+                  onChange={(e) => setFormData({...formData, additionalNotes: e.target.value})} 
+                />
+              </div>
+            </div>
+          </section>
+
+          <button 
+            onClick={handleSubmit} 
+            className="w-full py-6 bg-slate-900 text-white rounded-3xl font-black text-lg hover:bg-slate-800 transition-all shadow-2xl flex items-center justify-center gap-3 uppercase tracking-widest cursor-pointer"
+          >
+            Confirm & Send Booking Request <Zap size={20} fill="currentColor" />
+          </button>
         </div>
       </main>
     </>
@@ -111,7 +308,18 @@ const App = () => {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isCalendarReadOnly, setIsCalendarReadOnly] = useState(false);
   const [isBookingSuccess, setIsBookingSuccess] = useState(false);
+
+  useEffect(() => {
+    if (isBookingSuccess) {
+      const timer = setTimeout(() => {
+        setIsBookingSuccess(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isBookingSuccess]);
+
 
   const searchInputRef = useRef(null);
 
@@ -143,15 +351,17 @@ const App = () => {
 
   const handleAdminRedirect = () => {
     const isAdminDev = window.location.hostname === 'localhost';
-    window.location.href = isAdminDev ? 'http://localhost:3000' : `https://admin.${window.location.hostname}`;
+    if (isAdminDev) {
+      const currentPort = parseInt(window.location.port || '3001', 10);
+      const adminPort = currentPort - 1;
+      window.location.href = `http://localhost:${adminPort}`;
+    } else {
+      window.location.href = `https://admin.${window.location.hostname}`;
+    }
   };
 
   const handleInitiateBooking = () => {
-    if (!selectedDate) {
-      setIsCalendarOpen(true);
-      return;
-    }
-    setCurrentPage('booking-details');
+    setCurrentPage('booking');
   };
 
   const formatSelectedDate = (range) => {
@@ -187,62 +397,17 @@ const App = () => {
   const Footer = () => (
     <footer className="footer-reveal-container w-full bg-[#050505] border-t border-white/5 mt-10 shrink-0">
       <div className="max-w-[1600px] mx-auto px-16 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-          <div className="md:col-span-6 space-y-6">
-            <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Global Partners</h4>
-            <div className="grid grid-cols-2 gap-y-8">
-              <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">NIKE PH</span>
-              <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">AYALA LAND</span>
-              <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">VOGUE</span>
-              <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">RED BULL</span>
-            </div>
-          </div>
-          <div className="md:col-span-2 space-y-6">
-            <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Product</h4>
-            <div className="flex flex-col gap-3">
-              <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Features</a>
-              <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Pricing</a>
-            </div>
-          </div>
-          <div className="md:col-span-2 space-y-6">
-            <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Company</h4>
-            <div className="flex flex-col gap-3">
-              <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">About</a>
-              <a href="#" className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase">Terms</a>
-            </div>
-          </div>
-          <div className="md:col-span-2 space-y-6">
-            <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Contact Us</h4>
-            <div className="flex flex-col gap-3">
-              <a 
-                href="https://www.instagram.com/javaphotographyfilms/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase flex items-center gap-2"
-              >
-                Instagram
-                <ArrowUpRight size={12} />
-              </a>
-              <a 
-                href="https://www.facebook.com/javaphotographyandfilm" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-[11px] font-mono text-slate-500 hover:text-white transition-colors uppercase flex items-center gap-2"
-              >
-                Facebook
-                <ArrowUpRight size={12} />
-              </a>
-            </div>
+        <div className="flex flex-col items-center justify-center text-center space-y-6">
+          <h4 className="text-[8px] tracking-[0.5em] text-slate-600 uppercase font-black">Global Partners</h4>
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-4">
+            <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">NIKE PH</span>
+            <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">AYALA LAND</span>
+            <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">VOGUE</span>
+            <span className="text-white font-bold italic text-2xl tracking-tighter uppercase leading-none">RED BULL</span>
           </div>
         </div>
-        <div className="grid grid-cols-3 items-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-12 pt-6 border-t border-white/5">
-          <span className="text-left">© 2026 JAVA PHOTOGRAPHY & FILM</span>
-          <div className="flex justify-center">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:opacity-100 transition-opacity cursor-pointer font-bold">Back to Top</button>
-          </div>
-          <div className="flex justify-end">
-            <span className="opacity-100 text-slate-400 font-bold">Powered by ryta</span>
-          </div>
+        <div className="text-center text-[8px] tracking-[0.3em] uppercase text-white opacity-40 font-black mt-12 pt-6 border-t border-white/5">
+          <span>© 2026 HANA PHOTOGRAPHY & FILM</span>
         </div>
       </div>
     </footer>
@@ -250,7 +415,19 @@ const App = () => {
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-inter">
-      <StudioCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} />
+      <StudioCalendar isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} selectedDate={selectedDate} onSelect={setSelectedDate} readOnly={isCalendarReadOnly} />
+      
+      {isBookingSuccess && (
+        <div className="fixed bottom-8 right-8 z-[100] max-w-sm p-6 bg-slate-900 text-white rounded-[24px] flex items-center gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 animate-in slide-in-from-bottom-5 fade-in duration-300">
+          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900 shrink-0 shadow-md">
+            <Check size={24} strokeWidth={4} />
+          </div>
+          <div className="text-left">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">Booking Request Sent</p>
+            <p className="text-xs font-bold mt-1 tracking-tight text-white/90">We've received your request. Expect a response within 24 hours.</p>
+          </div>
+        </div>
+      )}
       
       {currentPage === 'storefront' ? (
         <>
@@ -277,12 +454,18 @@ const App = () => {
 
               {/* Logo (Center) */}
               <div className="flex items-center justify-center">
-                 <h1 className="text-[22px] font-black tracking-tighter uppercase text-center text-slate-900">JAVA PHOTOGRAPHY & FILM</h1>
+                 <h1 className="text-[22px] font-black tracking-tighter uppercase text-center text-slate-900">HANA PHOTOGRAPHY & FILM</h1>
               </div>
 
               {/* Icons (Right) */}
               <div className="flex items-center justify-end gap-6">
-                <button onClick={() => setIsCalendarOpen(true)} className="text-slate-900 hover:opacity-60 transition-all relative">
+                <button 
+                  onClick={() => {
+                    setIsCalendarReadOnly(true);
+                    setIsCalendarOpen(true);
+                  }} 
+                  className="text-slate-900 hover:opacity-60 transition-all relative"
+                >
                   <CalendarIcon size={20} strokeWidth={1.25} />
                   {selectedDate && <div className="absolute -top-1 -right-1 w-2 h-2 bg-slate-900 rounded-full border-2 border-white" />}
                 </button>
@@ -314,20 +497,6 @@ const App = () => {
           </header>
 
           <main className="flex-1 max-w-[1600px] mx-auto px-16 pt-4 pb-4 w-full">
-            {isBookingSuccess && (
-              <div className="mb-16 p-8 bg-slate-900 rounded-[40px] flex items-center justify-between text-white animate-in slide-in-from-top-4 duration-500 shadow-2xl">
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900">
-                    <Check size={24} strokeWidth={4} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">Booking Request Sent</p>
-                    <p className="text-lg font-bold mt-1 tracking-tight">We've received your brief. Expect a response within 24 hours.</p>
-                  </div>
-                </div>
-                <button className="bg-white text-slate-900 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-slate-100 transition-all">Schedule Call</button>
-              </div>
-            )}
 
             <div className="grid grid-cols-4 gap-x-8 gap-y-12">
               {filteredPackages.map(pkg => (
@@ -359,11 +528,11 @@ const App = () => {
           </main>
         </>
       ) : (
-        <BookingDetailsForm onBack={() => setCurrentPage('storefront')} onSubmit={handleFormSubmit} />
+        <BookingDetailsForm activePackage={activePackage} selectedDate={selectedDate} onBack={() => setCurrentPage('storefront')} onSubmit={handleFormSubmit} />
       )}
 
       <Footer />
-      {activePackage && (
+      {currentPage === 'storefront' && activePackage && (
         <>
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60]" onClick={() => setActivePackage(null)} />
           <aside className="fixed inset-y-0 right-0 w-full max-w-md bg-white z-[70] shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 border-l border-slate-100">
@@ -395,7 +564,10 @@ const App = () => {
                 <div>
                   <label className="text-[9px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Production Date</label>
                   <button 
-                    onClick={() => setIsCalendarOpen(true)} 
+                    onClick={() => {
+                      setIsCalendarReadOnly(false);
+                      setIsCalendarOpen(true);
+                    }} 
                     className={`w-full px-4 py-3 rounded-xl border text-left transition-all flex items-center justify-between group ${selectedDate ? 'bg-white border-slate-900' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}
                   >
                     <span className={`text-sm font-bold ${selectedDate ? 'text-slate-900' : 'text-slate-400'}`}>
@@ -417,7 +589,7 @@ const App = () => {
 
             <div className="p-8 border-t border-slate-50 bg-white">
               <button 
-                className={`w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-3 uppercase tracking-widest ${selectedDate ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-100 text-slate-300 cursor-not-allowed'}`} 
+                className="w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-3 uppercase tracking-widest bg-slate-900 text-white hover:bg-slate-800 cursor-pointer shadow-md" 
                 onClick={handleInitiateBooking}
               >
                 <Zap size={16} fill="currentColor" /> Initiate Request
