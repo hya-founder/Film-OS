@@ -1,0 +1,243 @@
+.ryta-calendar-root {
+  --active-bg: #000000;
+  --active-text: #FFFFFF;
+  --bridge-bg: #F3F4F6;
+  --weekday-text: #333333;
+  --available-text: #000000;
+  --booked-text: #E5E7EB;
+}
+
+.modal_container {
+  height: auto;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll_container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-y: auto;
+  padding-bottom: 0;
+}
+
+.scroll_container::-webkit-scrollbar {
+  display: none;
+}
+
+.calendar_container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  grid-gap: 0;
+  width: 100%;
+}
+
+.day_label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--weekday-text);
+  text-align: center;
+  padding-bottom: 8px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.day_cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.day {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0;
+  margin: 0;
+  transition: none !important;
+}
+
+/* Ensure the black circle stays black and text stays white even on hover */
+.activeCircle,
+.activeCircle:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  z-index: 10 !important;
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  font-weight: 900 !important;
+  transition: none !important;
+  pointer-events: none !important;
+}
+
+/* Only apply the subtle gray hover to dates that ARE NOT selected or in range */
+.day:not(.activeCircle):not(.rangeBridge):hover {
+  background-color: #F9FAFB !important;
+  color: #000;
+}
+
+.rangeBridge {
+  background-color: #E5E7EB !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 5 !important;
+  transition: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+}
+
+/* Force render for range start/end bridges to fill gaps */
+.rangeStartBridge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  background-color: #E5E7EB !important;
+  z-index: 1 !important;
+  transition: none !important;
+  height: 100% !important;
+}
+
+.rangeEndBridge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 50%;
+  background-color: #E5E7EB !important;
+  z-index: 1 !important;
+  transition: none !important;
+  height: 100% !important;
+}
+
+.summary_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.summary_label {
+  font-size: 10px;
+  font-weight: 900;
+  color: #000;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.summary_dates {
+  font-size: 20px;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: -0.02em;
+}
+
+.reset_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #F3F4F6;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.reset_button:hover {
+  background: #E5E7EB;
+  color: #000;
+}
+
+.day_badge {
+  background: #000;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.divider {
+  height: 1px;
+  background-color: #F3F4F6;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.day_booked {
+  color: var(--booked-text) !important;
+  pointer-events: none !important;
+}
+
+.day_booked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background-color: var(--booked-text);
+  transform: rotate(-45deg);
+  z-index: 15;
+}
+
+.confirm_button {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  margin-top: 24px;
+}
+
+.confirm_button_active {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+.confirm_button_active:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+.confirm_button_disabled {
+  background-color: #F1F5F9;
+  color: #CBD5E1;
+  cursor: not-allowed;
+}

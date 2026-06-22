@@ -5,7 +5,7 @@ import {
   Check, CreditCard, X, Edit3, Target,
   MessageSquare,
   Plus, Instagram, FileText, Receipt, ClipboardList, ArrowLeft,
-  Megaphone
+  Megaphone, LifeBuoy, LogOut
 } from 'lucide-react';
 import Inventory from './pages/Inventory';
 import Analytics from './pages/Analytics';
@@ -14,6 +14,7 @@ import ControlCenter from './pages/ControlCenter';
 import Expenses from './pages/Expenses';
 import CommunicationHub from './pages/CommunicationHub';
 import InquiryInbox from './pages/InquiryInbox';
+import SignIn from './pages/SignIn';
 
 // --- INITIAL MOCK DATA ---
 const INITIAL_LEADS = [
@@ -64,6 +65,9 @@ const SourceTag = ({ source }) => (
 );
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('admin_logged_in') === 'true';
+  });
   const [view, setView] = useState('HOME'); 
   const [leads, setLeads] = useState(INITIAL_LEADS);
   const [activeLeadId, setActiveLeadId] = useState('L-002');
@@ -71,6 +75,15 @@ const App = () => {
   const [replyText, setReplyText] = useState('');
   
   const activeLead = useMemo(() => leads.find(l => l.id === activeLeadId), [leads, activeLeadId]);
+
+  const handleSignIn = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('admin_logged_in', 'true');
+  };
+
+  if (!isLoggedIn) {
+    return <SignIn onSignIn={handleSignIn} />;
+  }
 
   const handleSendMessage = () => {
     if (!replyText.trim()) return;
@@ -142,7 +155,24 @@ const App = () => {
               <ClipboardList size={22} />
             </div>
           </button>
+
+          <button onClick={() => setView('SUPPORT')} className="relative w-full flex justify-center group">
+            {view === 'SUPPORT' && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-blue-600 rounded-r-full"></div>}
+            <div className={`p-3 transition-all ${view === 'SUPPORT' ? 'bg-blue-50 text-blue-600 rounded-2xl shadow-sm' : 'text-slate-300 hover:text-slate-500'}`}>
+              <LifeBuoy size={22} />
+            </div>
+          </button>
         </nav>
+        <button 
+          onClick={() => {
+            setIsLoggedIn(false);
+            localStorage.removeItem('admin_logged_in');
+          }}
+          title="Sign Out"
+          className="mt-auto bg-red-50 hover:bg-red-100 text-red-600 rounded-xl p-3 transition-all shadow-sm flex items-center justify-center cursor-pointer"
+        >
+          <LogOut size={20} />
+        </button>
       </aside>
 
       <main className="flex-1 h-full overflow-y-auto p-12">
@@ -161,6 +191,36 @@ const App = () => {
             <ControlCenter />
           ) : view === 'EXPENSES' ? (
             <Expenses />
+          ) : view === 'SUPPORT' ? (
+            <div className="flex-1">
+              <div className="mb-12">
+                <h1 className="text-4xl font-black tracking-tighter uppercase mb-2">Support Center</h1>
+                <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em]">How can we help you today?</p>
+              </div>
+              <div className="grid grid-cols-3 gap-8">
+                <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm">
+                  <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+                    <FileText size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Documentation</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">Learn how to use the Cinema Lab platform effectively.</p>
+                </div>
+                <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm">
+                  <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6">
+                    <MessageSquare size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Live Chat</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">Chat with our technical team for immediate assistance.</p>
+                </div>
+                <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm">
+                  <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6">
+                    <Send size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Email Support</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">Send us a detailed message about your inquiry.</p>
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="flex-1 flex items-center justify-center text-slate-300 font-black uppercase tracking-widest">
               {view} View Offline
